@@ -1,7 +1,6 @@
 package com.example.justchess.engine.piece
 
 import android.graphics.Bitmap
-import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
 
 class Pawn(
@@ -14,18 +13,12 @@ class Pawn(
         return Pawn(coordinate, playerId, image)
     }
 
-    override fun getValidDestinations(board: Board): Collection<Coordinate> {
-        val validDestinations: ArrayList<Coordinate> = ArrayList()
+    override fun getPossibleDestinations(): Collection<Coordinate> {
         val possibleDestinations: ArrayList<Coordinate> = ArrayList()
         possibleDestinations.add(leftDiagonal())
         possibleDestinations.add(forward())
         possibleDestinations.add(rightDiagonal())
-        for (targetCoordinate in possibleDestinations) {
-            if (this.isMoveLegal(targetCoordinate, board)) {
-                validDestinations.add(targetCoordinate)
-            }
-        }
-        return validDestinations
+        return possibleDestinations
     }
 
     private fun leftDiagonal(): Coordinate {
