@@ -5,11 +5,10 @@ import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Piece
 
 abstract class BasePiece : Piece {
-    private val tilesPerSide: Int = 8
 
     override fun getValidDestinations(board: Board): Collection<Coordinate> {
         val validDestinations: ArrayList<Coordinate> = ArrayList()
-        val possibleDestinations: Collection<Coordinate> = getPossibleDestinations()
+        val possibleDestinations: Collection<Coordinate> = getPossibleDestinations(board)
         for (targetCoordinate in possibleDestinations) {
             if (this.isMoveLegal(targetCoordinate, board)) {
                 validDestinations.add(targetCoordinate)
@@ -18,10 +17,10 @@ abstract class BasePiece : Piece {
         return validDestinations
     }
 
-    protected abstract fun getPossibleDestinations(): Collection<Coordinate>
+    protected abstract fun getPossibleDestinations(board: Board): Collection<Coordinate>
 
-    protected fun isMoveLegal(targetCoordinate: Coordinate, board: Board): Boolean {
-        return if (isCoordinateInBounds(targetCoordinate)) {
+    private fun isMoveLegal(targetCoordinate: Coordinate, board: Board): Boolean {
+        return if (Coordinate.inBounds(targetCoordinate)) {
             val targetPiece: Piece? = board.getPiece(targetCoordinate)
             if (targetPiece?.playerId == this.playerId) {
                 return false
@@ -33,8 +32,4 @@ abstract class BasePiece : Piece {
         }
     }
 
-    private fun isCoordinateInBounds(coordinate: Coordinate): Boolean {
-        return (coordinate.x in 0 until tilesPerSide) &&
-                (coordinate.y in 0 until tilesPerSide)
-    }
 }

@@ -1,8 +1,8 @@
 package com.example.justchess.engine.piece
 
 import android.graphics.Bitmap
+import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
-import com.example.justchess.engine.Piece
 
 class King(
     override val location: Coordinate,
@@ -13,10 +13,10 @@ class King(
         return King(coordinate, playerId, image)
     }
 
-    override fun getPossibleDestinations(): Collection<Coordinate> {
+    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
         val possibilities = hashSetOf<Coordinate>()
-        for (xDelta in (-1 .. 1)) {
-            for (yDelta in (-1 .. 1)) {
+        for (xDelta in (-1..1)) {
+            for (yDelta in (-1..1)) {
                 possibilities.add(
                     Coordinate(
                         location.x + xDelta,

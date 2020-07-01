@@ -15,7 +15,7 @@ class KingUnitTest {
                 null
             )
         } catch (e: Throwable) {
-            fail("Failed to instantiate pawn")
+            fail("Failed to instantiate king")
         }
     }
 

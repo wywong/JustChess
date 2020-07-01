@@ -1,6 +1,7 @@
 package com.example.justchess.engine.piece
 
 import android.graphics.Bitmap
+import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Piece
 
@@ -13,7 +14,7 @@ class Knight(
         return Knight(coordinate, playerId, image)
     }
 
-    override fun getPossibleDestinations(): Collection<Coordinate> {
+    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
         val possibleDestinations: ArrayList<Coordinate> = ArrayList()
         possibleDestinations.addAll(topDestinations())
         possibleDestinations.addAll(rightDestinations())

@@ -19,9 +19,8 @@ class ChessBoardView(
 ) : SurfaceView(context), Runnable {
     private val gameThread = Thread(this)
 
-    private val tilesPerSide: Int = 8
-    private val tileLength: Int = min(width, height) / (tilesPerSide + 1)
-    private val boardLength: Int = tilesPerSide * tileLength
+    private val tileLength: Int = min(width, height) / (Constants.tilesPerSide + 1)
+    private val boardLength: Int = Constants.tilesPerSide * tileLength
     private val boardTopX: Int = tileLength / 2
     private val boardTopY: Int = (height - boardLength) / 2
     private val tiles = arrayListOf<Tile>()
@@ -86,7 +85,7 @@ class ChessBoardView(
         val tileColor2 = Color.rgb(222, 184, 135)
         val paint2 = Paint()
         paint2.color = tileColor2
-        val tileRange = 0 until tilesPerSide
+        val tileRange = 0 until Constants.tilesPerSide
         for (row in tileRange) {
             for (col in tileRange) {
                 val left = boardTopX + (row * tileLength)
