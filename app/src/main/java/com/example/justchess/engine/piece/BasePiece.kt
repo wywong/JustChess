@@ -25,11 +25,14 @@ abstract class BasePiece : Piece {
             if (targetPiece?.playerId == this.playerId) {
                 return false
             }
-            val prospectiveBoard = board.movePiece(this, targetCoordinate)
-            !prospectiveBoard.isKingInCheck(this.playerId)
+            isKingCheckedAfterMove(board, targetCoordinate)
         } else {
             false
         }
     }
 
+    private fun isKingCheckedAfterMove(board: Board, targetCoordinate: Coordinate): Boolean {
+        val prospectiveBoard = board.movePiece(this, targetCoordinate)
+        return !prospectiveBoard.isKingInCheck(this.playerId)
+    }
 }

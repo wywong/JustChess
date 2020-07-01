@@ -13,7 +13,8 @@ class PawnUnitTest {
             Pawn(
                 Coordinate(0, 1),
                 0,
-                null
+                null,
+                true
             )
         } catch (e: Throwable) {
             fail("Failed to instantiate pawn")
@@ -25,7 +26,8 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(1, 1),
             0,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 3)
         assert(coordinates.contains(Coordinate(0, 0)))
@@ -34,11 +36,45 @@ class PawnUnitTest {
     }
 
     @Test
+    fun pawn_white_all_moves_valid_first_move() {
+        val coordinates = Pawn(
+            Coordinate(1, 6),
+            0,
+            null,
+            false
+        ).getValidDestinations(FakeBoard(false))
+        assert(coordinates.size == 4)
+        assert(coordinates.contains(Coordinate(0, 5)))
+        assert(coordinates.contains(Coordinate(1, 5)))
+        assert(coordinates.contains(Coordinate(1, 4)))
+        assert(coordinates.contains(Coordinate(2, 5)))
+    }
+
+    @Test
+    fun pawn_white_all_moves_valid_first_move_forward_obstructed() {
+        val coordinates = Pawn(
+            Coordinate(1, 6),
+            0,
+            null,
+            false
+        ).getValidDestinations(
+            FakeBoard(
+                false,
+                Pawn(Coordinate(1, 5), 0, null, true)
+            )
+        )
+        assert(coordinates.size == 2)
+        assert(coordinates.contains(Coordinate(0, 5)))
+        assert(coordinates.contains(Coordinate(2, 5)))
+    }
+
+    @Test
     fun pawn_white_left_move_invalid() {
         val coordinates = Pawn(
             Coordinate(0, 1),
             0,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
         assert(coordinates.contains(Coordinate(0, 0)))
@@ -50,7 +86,8 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(7, 1),
             0,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
         assert(coordinates.contains(Coordinate(7, 0)))
@@ -62,13 +99,15 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(4, 1),
             0,
-            null
+            null,
+            true
         ).getValidDestinations(
             FakeBoard(
                 false, Pawn(
                     Coordinate(4, 0),
                     0,
-                    null
+                    null,
+                    true
                 )
             )
         )
@@ -83,7 +122,8 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(4, 1),
             0,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(true))
         assert(coordinates.isEmpty())
     }
@@ -93,7 +133,8 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(1, 1),
             1,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 3)
         assert(coordinates.contains(Coordinate(0, 2)))
@@ -102,11 +143,48 @@ class PawnUnitTest {
     }
 
     @Test
+    fun pawn_black_all_moves_valid_first_move() {
+        val coordinates = Pawn(
+            Coordinate(1, 1),
+            1,
+            null,
+            false
+        ).getValidDestinations(FakeBoard(false))
+        assert(coordinates.size == 4)
+        assert(coordinates.contains(Coordinate(0, 2)))
+        assert(coordinates.contains(Coordinate(1, 2)))
+        assert(coordinates.contains(Coordinate(1, 3)))
+        assert(coordinates.contains(Coordinate(2, 2)))
+    }
+
+    @Test
+    fun pawn_black_all_moves_valid_first_move_forward_obstructed() {
+        // note that this test obstructs with a different color piece
+        // we should not be able to capture forward
+        val coordinates = Pawn(
+            Coordinate(1, 1),
+            1,
+            null,
+            false
+        ).getValidDestinations(
+            FakeBoard(
+                false,
+                Pawn(Coordinate(1, 2), 0, null, true)
+            )
+        )
+        assert(coordinates.size == 2)
+        assert(coordinates.contains(Coordinate(0, 2)))
+        assert(coordinates.contains(Coordinate(2, 2)))
+    }
+
+
+    @Test
     fun pawn_black_left_move_invalid() {
         val coordinates = Pawn(
             Coordinate(0, 1),
             1,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
         assert(coordinates.contains(Coordinate(0, 2)))
@@ -118,7 +196,8 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(7, 1),
             1,
-            null
+            null,
+            true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
         assert(coordinates.contains(Coordinate(7, 2)))
@@ -130,13 +209,15 @@ class PawnUnitTest {
         val coordinates = Pawn(
             Coordinate(4, 1),
             1,
-            null
+            null,
+            true
         ).getValidDestinations(
             FakeBoard(
                 false, Pawn(
                     Coordinate(4, 2),
                     1,
-                    null
+                    null,
+                    true
                 )
             )
         )
