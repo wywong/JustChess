@@ -1,7 +1,7 @@
-package com.example.justchess.engine
+package com.example.justchess.engine.piece
 
+import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.mocks.FakeBoard
-import com.example.justchess.engine.piece.Pawn
 import org.junit.Assert.fail
 import org.junit.Test
 
@@ -30,9 +30,24 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 3)
-        assert(coordinates.contains(Coordinate(0, 0)))
-        assert(coordinates.contains(Coordinate(1, 0)))
-        assert(coordinates.contains(Coordinate(2, 0)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                0
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                0
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                0
+            )
+        ))
     }
 
     @Test
@@ -44,10 +59,30 @@ class PawnUnitTest {
             false
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 4)
-        assert(coordinates.contains(Coordinate(0, 5)))
-        assert(coordinates.contains(Coordinate(1, 5)))
-        assert(coordinates.contains(Coordinate(1, 4)))
-        assert(coordinates.contains(Coordinate(2, 5)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                5
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                5
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                4
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                5
+            )
+        ))
     }
 
     @Test
@@ -64,8 +99,18 @@ class PawnUnitTest {
             )
         )
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(0, 5)))
-        assert(coordinates.contains(Coordinate(2, 5)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                5
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                5
+            )
+        ))
     }
 
     @Test
@@ -77,8 +122,18 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(0, 0)))
-        assert(coordinates.contains(Coordinate(1, 0)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                0
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                0
+            )
+        ))
     }
 
     @Test
@@ -90,8 +145,18 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(7, 0)))
-        assert(coordinates.contains(Coordinate(6, 0)))
+        assert(coordinates.contains(
+            Coordinate(
+                7,
+                0
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                6,
+                0
+            )
+        ))
     }
 
     @Test
@@ -112,9 +177,24 @@ class PawnUnitTest {
             )
         )
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(3, 0)))
-        assert(!coordinates.contains(Coordinate(4, 0)))
-        assert(coordinates.contains(Coordinate(5, 0)))
+        assert(coordinates.contains(
+            Coordinate(
+                3,
+                0
+            )
+        ))
+        assert(!coordinates.contains(
+            Coordinate(
+                4,
+                0
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                5,
+                0
+            )
+        ))
     }
 
     @Test
@@ -137,9 +217,24 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 3)
-        assert(coordinates.contains(Coordinate(0, 2)))
-        assert(coordinates.contains(Coordinate(1, 2)))
-        assert(coordinates.contains(Coordinate(2, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                2
+            )
+        ))
     }
 
     @Test
@@ -151,10 +246,30 @@ class PawnUnitTest {
             false
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 4)
-        assert(coordinates.contains(Coordinate(0, 2)))
-        assert(coordinates.contains(Coordinate(1, 2)))
-        assert(coordinates.contains(Coordinate(1, 3)))
-        assert(coordinates.contains(Coordinate(2, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                3
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                2
+            )
+        ))
     }
 
     @Test
@@ -173,8 +288,18 @@ class PawnUnitTest {
             )
         )
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(0, 2)))
-        assert(coordinates.contains(Coordinate(2, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                2,
+                2
+            )
+        ))
     }
 
 
@@ -187,8 +312,18 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(0, 2)))
-        assert(coordinates.contains(Coordinate(1, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                0,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                1,
+                2
+            )
+        ))
     }
 
     @Test
@@ -200,8 +335,18 @@ class PawnUnitTest {
             true
         ).getValidDestinations(FakeBoard(false))
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(7, 2)))
-        assert(coordinates.contains(Coordinate(6, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                7,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                6,
+                2
+            )
+        ))
     }
 
     @Test
@@ -222,8 +367,23 @@ class PawnUnitTest {
             )
         )
         assert(coordinates.size == 2)
-        assert(coordinates.contains(Coordinate(3, 2)))
-        assert(!coordinates.contains(Coordinate(4, 2)))
-        assert(coordinates.contains(Coordinate(5, 2)))
+        assert(coordinates.contains(
+            Coordinate(
+                3,
+                2
+            )
+        ))
+        assert(!coordinates.contains(
+            Coordinate(
+                4,
+                2
+            )
+        ))
+        assert(coordinates.contains(
+            Coordinate(
+                5,
+                2
+            )
+        ))
     }
 }

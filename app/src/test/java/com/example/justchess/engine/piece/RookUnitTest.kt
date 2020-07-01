@@ -1,7 +1,7 @@
-package com.example.justchess.engine
+package com.example.justchess.engine.piece
 
+import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.mocks.FakeBoard
-import com.example.justchess.engine.piece.Rook
 import org.junit.Assert
 import org.junit.Test
 
@@ -31,11 +31,21 @@ class RookUnitTest {
         assert(destinations.size == 14)
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(Coordinate(3, z)))
+            assert(destinations.contains(
+                Coordinate(
+                    3,
+                    z
+                )
+            ))
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(Coordinate(z, 3)))
+            assert(destinations.contains(
+                Coordinate(
+                    z,
+                    3
+                )
+            ))
         }
     }
 
@@ -54,11 +64,21 @@ class RookUnitTest {
         )
         assert(destinations.size == 11)
         for (z in 4 until 8) {
-            assert(destinations.contains(Coordinate(3, z)))
+            assert(destinations.contains(
+                Coordinate(
+                    3,
+                    z
+                )
+            ))
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(Coordinate(z, 3)))
+            assert(destinations.contains(
+                Coordinate(
+                    z,
+                    3
+                )
+            ))
         }
     }
 
@@ -76,13 +96,28 @@ class RookUnitTest {
             )
         )
         assert(destinations.size == 12)
-        assert(destinations.contains(Coordinate(3, 2)))
+        assert(destinations.contains(
+            Coordinate(
+                3,
+                2
+            )
+        ))
         for (z in 4 until 8) {
-            assert(destinations.contains(Coordinate(3, z)))
+            assert(destinations.contains(
+                Coordinate(
+                    3,
+                    z
+                )
+            ))
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(Coordinate(z, 3)))
+            assert(destinations.contains(
+                Coordinate(
+                    z,
+                    3
+                )
+            ))
         }
     }
 }
