@@ -11,7 +11,7 @@ class Queen(
     override val location: Coordinate,
     override val playerId: Int,
     override val image: Bitmap?,
-    private val moved: Boolean
+    moved: Boolean
 ) : BasePiece(moved) {
     private val diagonalBehavior = DiagonalBehavior(location)
     private val plusBehavior = PlusBehavior(location)
@@ -20,7 +20,7 @@ class Queen(
         return Queen(coordinate, playerId, image, true)
     }
 
-    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
+    override fun getPossible(board: Board): Collection<Coordinate> {
         val moves = arrayListOf<Coordinate>()
         moves.addAll(diagonalBehavior.possibleMoves(board))
         moves.addAll(plusBehavior.possibleMoves(board))

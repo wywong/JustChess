@@ -10,7 +10,7 @@ class Rook(
     override val location: Coordinate,
     override val playerId: Int,
     override val image: Bitmap?,
-    private val moved: Boolean
+    moved: Boolean
 ) : BasePiece(moved) {
     private val plusBehavior: PlusBehavior = PlusBehavior(location)
 
@@ -18,7 +18,7 @@ class Rook(
         return Rook(coordinate, playerId, image, true)
     }
 
-    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
+    override fun getPossible(board: Board): Collection<Coordinate> {
         return plusBehavior.possibleMoves(board)
     }
 }

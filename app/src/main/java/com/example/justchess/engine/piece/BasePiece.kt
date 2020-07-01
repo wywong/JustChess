@@ -11,32 +11,31 @@ abstract class BasePiece(private val moved: Boolean) : Piece {
     }
 
     override fun getValidDestinations(board: Board): Collection<Coordinate> {
-        val validDestinations: ArrayList<Coordinate> = ArrayList()
-        val possibleDestinations: Collection<Coordinate> = getPossibleDestinations(board)
-        for (targetCoordinate in possibleDestinations) {
-            if (this.isMoveLegal(targetCoordinate, board)) {
-                validDestinations.add(targetCoordinate)
+        return getPossibleDestinations(board)
+            .filter{
+                coordinate -> isKingCheckedAfterMove(coordinate, board)
             }
-        }
-        return validDestinations
     }
 
-    protected abstract fun getPossibleDestinations(board: Board): Collection<Coordinate>
+    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
+        return getPossible(board).filter {
+            coordinate -> isMovePossible(coordinate, board)
+        }
+    }
 
-    private fun isMoveLegal(targetCoordinate: Coordinate, board: Board): Boolean {
+    protected abstract fun getPossible(board: Board): Collection<Coordinate>
+
+    private fun isMovePossible(targetCoordinate: Coordinate, board: Board): Boolean {
         return if (Coordinate.inBounds(targetCoordinate)) {
             val targetPiece: Piece? = board.getPiece(targetCoordinate)
-            if (targetPiece?.playerId == this.playerId) {
-                return false
-            }
-            isKingCheckedAfterMove(board, targetCoordinate)
+            return targetPiece?.playerId != this.playerId
         } else {
             false
         }
     }
 
-    private fun isKingCheckedAfterMove(board: Board, targetCoordinate: Coordinate): Boolean {
-        val prospectiveBoard = board.movePiece(this, targetCoordinate)
+    private fun isKingCheckedAfterMove(targetCoordinate: Coordinate, board: Board): Boolean {
+        val prospectiveBoard = board.movePiece(targetCoordinate, this)
         return !prospectiveBoard.isKingInCheck(this.playerId)
     }
 }

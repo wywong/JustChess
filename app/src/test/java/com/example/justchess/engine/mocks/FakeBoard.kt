@@ -20,7 +20,7 @@ class FakeBoard(
         return ArrayList()
     }
 
-    override fun movePiece(piece: Piece, coordinate: Coordinate): Board {
+    override fun movePiece(coordinate: Coordinate, piece: Piece): Board {
         return this
     }
 

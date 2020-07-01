@@ -15,7 +15,7 @@ class King(
         return King(coordinate, playerId, image, true)
     }
 
-    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
+    override fun getPossible(board: Board): Collection<Coordinate> {
         val possibilities = hashSetOf<Coordinate>()
         for (xDelta in (-1..1)) {
             for (yDelta in (-1..1)) {

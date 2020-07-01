@@ -18,7 +18,7 @@ interface Board {
      * returns a board with piece moved to coordinate
      * WARNING the returned board state may not be valid
      */
-    fun movePiece(piece: Piece, coordinate: Coordinate): Board
+    fun movePiece(coordinate: Coordinate, piece: Piece): Board
 
     /**
      * returns true if player's king is in check

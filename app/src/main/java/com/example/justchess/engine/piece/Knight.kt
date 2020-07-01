@@ -9,13 +9,13 @@ class Knight(
     override val location: Coordinate,
     override val playerId: Int,
     override val image: Bitmap?,
-    private val moved: Boolean
+    moved: Boolean
 ) : BasePiece(moved) {
     override fun updateLocation(coordinate: Coordinate): Piece {
         return Knight(coordinate, playerId, image, true)
     }
 
-    override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
+    override fun getPossible(board: Board): Collection<Coordinate> {
         val possibleDestinations: ArrayList<Coordinate> = ArrayList()
         possibleDestinations.addAll(topDestinations())
         possibleDestinations.addAll(rightDestinations())

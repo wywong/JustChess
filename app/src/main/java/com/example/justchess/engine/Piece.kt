@@ -29,7 +29,14 @@ interface Piece {
     fun updateLocation(coordinate: Coordinate): Piece
 
     /**
-     * returns a collection with valid coordinates to move to
+     * returns a collection with valid coordinates to move to,
+     * this is a subset of possible destinations that excludes moves
+     * that cause the king to be in check
      */
     fun getValidDestinations(board: Board): Collection<Coordinate>
+
+    /**
+     * returns a collection with possible coordinates to move to
+     */
+    fun getPossibleDestinations(board: Board): Collection<Coordinate>
 }
