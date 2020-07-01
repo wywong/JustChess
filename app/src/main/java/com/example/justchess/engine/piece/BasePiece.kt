@@ -4,7 +4,11 @@ import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Piece
 
-abstract class BasePiece : Piece {
+abstract class BasePiece(private val moved: Boolean) : Piece {
+
+    override fun hasMoved(): Boolean {
+        return moved
+    }
 
     override fun getValidDestinations(board: Board): Collection<Coordinate> {
         val validDestinations: ArrayList<Coordinate> = ArrayList()

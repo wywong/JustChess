@@ -8,10 +8,11 @@ import com.example.justchess.engine.Piece
 class Knight(
     override val location: Coordinate,
     override val playerId: Int,
-    override val image: Bitmap?
-) : BasePiece() {
+    override val image: Bitmap?,
+    private val moved: Boolean
+) : BasePiece(moved) {
     override fun updateLocation(coordinate: Coordinate): Piece {
-        return Knight(coordinate, playerId, image)
+        return Knight(coordinate, playerId, image, true)
     }
 
     override fun getPossibleDestinations(board: Board): Collection<Coordinate> {

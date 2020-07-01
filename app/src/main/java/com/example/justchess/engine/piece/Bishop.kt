@@ -9,12 +9,13 @@ import com.example.justchess.engine.piece.movement.DiagonalBehavior
 class Bishop(
     override val location: Coordinate,
     override val playerId: Int,
-    override val image: Bitmap?
-) : BasePiece() {
+    override val image: Bitmap?,
+    private val moved: Boolean
+) : BasePiece(moved) {
     private val diagonalBehavior: DiagonalBehavior = DiagonalBehavior(location)
 
     override fun updateLocation(coordinate: Coordinate): Piece {
-        return Bishop(coordinate, playerId, image)
+        return Bishop(coordinate, playerId, image, true)
     }
 
     override fun getPossibleDestinations(board: Board): Collection<Coordinate> {

@@ -9,12 +9,13 @@ import com.example.justchess.engine.piece.movement.PlusBehavior
 class Rook(
     override val location: Coordinate,
     override val playerId: Int,
-    override val image: Bitmap?
-) : BasePiece() {
+    override val image: Bitmap?,
+    private val moved: Boolean
+) : BasePiece(moved) {
     private val plusBehavior: PlusBehavior = PlusBehavior(location)
 
     override fun updateLocation(coordinate: Coordinate): Piece {
-        return Rook(coordinate, playerId, image)
+        return Rook(coordinate, playerId, image, true)
     }
 
     override fun getPossibleDestinations(board: Board): Collection<Coordinate> {

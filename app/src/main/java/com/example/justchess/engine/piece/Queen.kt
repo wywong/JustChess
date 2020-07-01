@@ -10,13 +10,14 @@ import com.example.justchess.engine.piece.movement.PlusBehavior
 class Queen(
     override val location: Coordinate,
     override val playerId: Int,
-    override val image: Bitmap?
-) : BasePiece() {
+    override val image: Bitmap?,
+    private val moved: Boolean
+) : BasePiece(moved) {
     private val diagonalBehavior = DiagonalBehavior(location)
     private val plusBehavior = PlusBehavior(location)
 
     override fun updateLocation(coordinate: Coordinate): Piece {
-        return Queen(coordinate, playerId, image)
+        return Queen(coordinate, playerId, image, true)
     }
 
     override fun getPossibleDestinations(board: Board): Collection<Coordinate> {

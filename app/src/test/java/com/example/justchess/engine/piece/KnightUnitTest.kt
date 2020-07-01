@@ -12,7 +12,8 @@ class KnightUnitTest {
             Knight(
                 Coordinate(0, 1),
                 0,
-                null
+                null,
+                true
             )
         } catch (e: Throwable) {
             fail("Failed to instantiate knight")
@@ -25,58 +26,75 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 8)
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                0
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                0
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                2
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    2
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                2
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    2
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    4
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -85,46 +103,59 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 6)
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                1
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    1
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                3
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    3
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                5
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    5
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                5
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    5
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                1
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    1
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                3
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    3
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -133,46 +164,59 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 6)
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                4
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    6
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -181,46 +225,59 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 6)
-        assert(destinations.contains(
-            Coordinate(
-                1,
-                0
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                3,
-                0
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    3,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                1,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                3,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    3,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                5,
-                2
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    5,
+                    2
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                5,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    5,
+                    4
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -229,46 +286,59 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 6)
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                0
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                0
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    0
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                2
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    2
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                4
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    6
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    6
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -277,7 +347,8 @@ class KnightUnitTest {
         val knight = Knight(
             origin,
             0,
-            null
+            null,
+            true
         )
         val destinations = knight.getValidDestinations(FakeBoard(true))
         assert(destinations.isEmpty())

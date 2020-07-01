@@ -12,7 +12,8 @@ class RookUnitTest {
             Rook(
                 Coordinate(1, 1),
                 0,
-                null
+                null,
+                true
             )
         } catch (e: Throwable) {
             Assert.fail("Failed to instantiate rook")
@@ -24,28 +25,33 @@ class RookUnitTest {
         val rook = Rook(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
 
         val destinations = rook.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 14)
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    3,
-                    z
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        3,
+                        z
+                    )
                 )
-            ))
+            )
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    3
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        3
+                    )
                 )
-            ))
+            )
         }
     }
 
@@ -54,31 +60,38 @@ class RookUnitTest {
         val rook = Rook(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
 
         val destinations = rook.getValidDestinations(
             FakeBoard(
-                false, Rook(Coordinate(3, 2), 0, null)
+                false, Rook(
+                    Coordinate(3, 2), 0, null, true
+                )
             )
         )
         assert(destinations.size == 11)
         for (z in 4 until 8) {
-            assert(destinations.contains(
-                Coordinate(
-                    3,
-                    z
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        3,
+                        z
+                    )
                 )
-            ))
+            )
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    3
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        3
+                    )
                 )
-            ))
+            )
         }
     }
 
@@ -87,37 +100,46 @@ class RookUnitTest {
         val rook = Rook(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
 
         val destinations = rook.getValidDestinations(
             FakeBoard(
-                false, Rook(Coordinate(3, 2), 1, null)
+                false, Rook(
+                    Coordinate(3, 2), 1, null, true
+                )
             )
         )
         assert(destinations.size == 12)
-        assert(destinations.contains(
-            Coordinate(
-                3,
-                2
-            )
-        ))
-        for (z in 4 until 8) {
-            assert(destinations.contains(
+        assert(
+            destinations.contains(
                 Coordinate(
                     3,
-                    z
+                    2
                 )
-            ))
+            )
+        )
+        for (z in 4 until 8) {
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        3,
+                        z
+                    )
+                )
+            )
         }
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    3
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        3
+                    )
                 )
-            ))
+            )
         }
     }
 }

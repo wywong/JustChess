@@ -19,6 +19,11 @@ interface Piece {
     val image: Bitmap?
 
     /**
+     * returns true if the piece has moved from it's initial location
+     */
+    fun hasMoved(): Boolean
+
+    /**
      * returns the piece with an updated location
      */
     fun updateLocation(coordinate: Coordinate): Piece

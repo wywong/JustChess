@@ -12,7 +12,8 @@ class BishopUnitTest {
             Bishop(
                 Coordinate(1, 1),
                 0,
-                null
+                null,
+                true
             )
         } catch (e: Throwable) {
             Assert.fail("Failed to instantiate bishop")
@@ -24,58 +25,73 @@ class BishopUnitTest {
         val bishop = Bishop(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
         val destinations = bishop.getValidDestinations(FakeBoard(false))
         assert(destinations.size == 13)
         // top left and bottom right
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    z
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        z
+                    )
                 )
-            ))
+            )
         }
         // top right
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                2
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    2
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                5,
-                1
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    5,
+                    1
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                6,
-                0
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    6,
+                    0
+                )
             )
-        ))
+        )
         // bottom left
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                4
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                1,
-                5
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    5
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    6
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -84,44 +100,53 @@ class BishopUnitTest {
         val bishop = Bishop(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
         val destinations = bishop.getValidDestinations(
             FakeBoard(
                 false,
-                Bishop(Coordinate(4, 2), 0, null)
+                Bishop(Coordinate(4, 2), 0, null, true)
             )
         )
         assert(destinations.size == 10)
         // top left and bottom right
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    z
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        z
+                    )
                 )
-            ))
+            )
         }
         // bottom left
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                4
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                1,
-                5
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    5
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    6
+                )
             )
-        ))
+        )
     }
 
     @Test
@@ -129,50 +154,61 @@ class BishopUnitTest {
         val bishop = Bishop(
             Coordinate(3, 3),
             0,
-            null
+            null,
+            true
         )
         val destinations = bishop.getValidDestinations(
             FakeBoard(
                 false,
-                Bishop(Coordinate(4, 2), 1, null)
+                Bishop(Coordinate(4, 2), 1, null, true)
             )
         )
         assert(destinations.size == 11)
         // top left and bottom right
         for (z in 0 until 8) {
             if (z == 3) continue
-            assert(destinations.contains(
-                Coordinate(
-                    z,
-                    z
+            assert(
+                destinations.contains(
+                    Coordinate(
+                        z,
+                        z
+                    )
                 )
-            ))
+            )
         }
         // top right can capture blocking piece
-        assert(destinations.contains(
-            Coordinate(
-                4,
-                2
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    2
+                )
             )
-        ))
+        )
         // bottom left
-        assert(destinations.contains(
-            Coordinate(
-                2,
-                4
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
+                    4
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                1,
-                5
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    5
+                )
             )
-        ))
-        assert(destinations.contains(
-            Coordinate(
-                0,
-                6
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    6
+                )
             )
-        ))
+        )
     }
 }
