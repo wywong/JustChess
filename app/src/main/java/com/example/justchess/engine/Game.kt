@@ -12,9 +12,14 @@ interface Game {
     fun getTurnHistory(): Collection<Turn>
 
     /**
-     * updates the game state by applying the move
+     * updates the game state by applying the supplied moves
      */
-    fun movePiece(turn: Turn)
+    fun applyMoves(moves: Collection<Move>): Turn
+
+    /**
+     * returns true if there is at least one turn to undo
+     */
+    fun canUndo(): Boolean
 
     /**
      * updates the game state by reversing the latest turn
