@@ -1,6 +1,7 @@
 package com.example.justchess.engine.piece
 
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.game.DefaultBoard
 import com.example.justchess.engine.mocks.FakeBoard
 import org.junit.Assert.fail
 import org.junit.Test
@@ -22,7 +23,7 @@ class PawnUnitTest {
     }
 
     @Test
-    fun pawn_white_all_moves_valid() {
+    fun pawn_white_single_forward_valid() {
         val validMoves = Pawn(
             Coordinate(1, 1),
             0,
@@ -32,15 +33,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 3)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    0
-                )
-            )
-        )
+        assert(destinations.size == 1)
         assert(
             destinations.contains(
                 Coordinate(
@@ -49,18 +42,10 @@ class PawnUnitTest {
                 )
             )
         )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    0
-                )
-            )
-        )
     }
 
     @Test
-    fun pawn_white_all_moves_valid_first_move() {
+    fun pawn_white_forward_moves_valid_first_move() {
         val validMoves = Pawn(
             Coordinate(1, 6),
             0,
@@ -70,15 +55,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 4)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    5
-                )
-            )
-        )
+        assert(destinations.size == 2)
         assert(
             destinations.contains(
                 Coordinate(
@@ -95,18 +72,10 @@ class PawnUnitTest {
                 )
             )
         )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    5
-                )
-            )
-        )
     }
 
     @Test
-    fun pawn_white_all_moves_valid_first_move_forward_obstructed() {
+    fun pawn_white_first_move_forward_obstructed() {
         val validMoves = Pawn(
             Coordinate(1, 6),
             0,
@@ -121,23 +90,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 2)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    5
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    5
-                )
-            )
-        )
+        assert(destinations.isEmpty())
     }
 
     @Test
@@ -147,7 +100,18 @@ class PawnUnitTest {
             0,
             null,
             true
-        ).getValidMoves(FakeBoard(false))
+        ).getValidMoves(
+            DefaultBoard(
+                mapOf(
+                    Pair(
+                        Coordinate(1, 0),
+                        King(Coordinate(1, 0), 1, null, true)
+                    )
+                ),
+                Coordinate(1, 0),
+                Coordinate(7, 7)
+            )
+        )
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
@@ -177,7 +141,18 @@ class PawnUnitTest {
             0,
             null,
             true
-        ).getValidMoves(FakeBoard(false))
+        ).getValidMoves(
+            DefaultBoard(
+                mapOf(
+                    Pair(
+                        Coordinate(6, 0),
+                        King(Coordinate(6, 0), 1, null, true)
+                    )
+                ),
+                Coordinate(6, 0),
+                Coordinate(7, 7)
+            )
+        )
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
@@ -220,31 +195,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 2)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    3,
-                    0
-                )
-            )
-        )
-        assert(
-            !destinations.contains(
-                Coordinate(
-                    4,
-                    0
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    5,
-                    0
-                )
-            )
-        )
+        assert(destinations.isEmpty())
     }
 
     @Test
@@ -262,7 +213,7 @@ class PawnUnitTest {
     }
 
     @Test
-    fun pawn_black_all_moves_valid() {
+    fun pawn_black_forward_move_valid() {
         val validMoves = Pawn(
             Coordinate(1, 1),
             1,
@@ -272,15 +223,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 3)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    2
-                )
-            )
-        )
+        assert(destinations.isNotEmpty())
         assert(
             destinations.contains(
                 Coordinate(
@@ -289,18 +232,10 @@ class PawnUnitTest {
                 )
             )
         )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    2
-                )
-            )
-        )
     }
 
     @Test
-    fun pawn_black_all_moves_valid_first_move() {
+    fun pawn_black_all_forward_moves_valid_first_move() {
         val validMoves = Pawn(
             Coordinate(1, 1),
             1,
@@ -310,15 +245,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 4)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    2
-                )
-            )
-        )
+        assert(destinations.size == 2)
         assert(
             destinations.contains(
                 Coordinate(
@@ -335,20 +262,10 @@ class PawnUnitTest {
                 )
             )
         )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    2
-                )
-            )
-        )
     }
 
     @Test
     fun pawn_black_all_moves_valid_first_move_forward_obstructed() {
-        // note that this test obstructs with a different color piece
-        // we should not be able to capture forward
         val validMoves = Pawn(
             Coordinate(1, 1),
             1,
@@ -363,23 +280,7 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 2)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    2
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
-                    2
-                )
-            )
-        )
+        assert(destinations.isEmpty())
     }
 
 
@@ -390,7 +291,16 @@ class PawnUnitTest {
             1,
             null,
             true
-        ).getValidMoves(FakeBoard(false))
+        ).getValidMoves(DefaultBoard(
+            mapOf(
+                Pair(
+                    Coordinate(1, 2),
+                    King(Coordinate(1, 2), 0, null, false)
+                )
+            ),
+            Coordinate(1, 2),
+            Coordinate(7, 7)
+        ))
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
@@ -420,7 +330,18 @@ class PawnUnitTest {
             1,
             null,
             true
-        ).getValidMoves(FakeBoard(false))
+        ).getValidMoves(
+            DefaultBoard(
+                mapOf(
+                    Pair(
+                        Coordinate(6, 2),
+                        King(Coordinate(6, 2), 0, null, true)
+                    )
+                ),
+                Coordinate(6, 2),
+                Coordinate(0, 0)
+            )
+        )
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
@@ -463,30 +384,6 @@ class PawnUnitTest {
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
         }
-        assert(destinations.size == 2)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    3,
-                    2
-                )
-            )
-        )
-        assert(
-            !destinations.contains(
-                Coordinate(
-                    4,
-                    2
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    5,
-                    2
-                )
-            )
-        )
+        assert(destinations.isEmpty())
     }
 }

@@ -20,19 +20,30 @@ class Pawn(
         if (canMoveForwardTwice(board)) {
             possibleDestinations.add(forwardTwice())
         }
-        possibleDestinations.add(leftDiagonal())
+        val topLeft = leftDiagonal(board)
+        if (topLeft != null) {
+            possibleDestinations.add(topLeft)
+        }
         if (canMoveForward(board)) {
             possibleDestinations.add(forward())
         }
-        possibleDestinations.add(rightDiagonal())
+        val topRight = rightDiagonal(board)
+        if (topRight != null) {
+            possibleDestinations.add(topRight)
+        }
         return possibleDestinations
     }
 
-    private fun leftDiagonal(): Coordinate {
-        return Coordinate(
+    private fun leftDiagonal(board: Board): Coordinate? {
+        val coordinate = Coordinate(
             location.x - 1,
             location.y + yDelta()
         )
+        val capturePiece = board.getPiece(coordinate)
+        if (capturePiece != null && capturePiece.playerId != this.playerId) {
+            return coordinate
+        }
+        return null
     }
 
     private fun canMoveForward(board: Board): Boolean {
@@ -52,7 +63,12 @@ class Pawn(
     }
 
     private fun canMoveForwardTwice(board: Board): Boolean {
-        return !moved && this.canMoveForward(board)
+        return !moved && this.canMoveForward(board) && board.getPiece(
+            Coordinate(
+                location.x,
+                location.y + 2 * yDelta()
+            )
+        ) == null
     }
 
     private fun forwardTwice(): Coordinate {
@@ -62,11 +78,16 @@ class Pawn(
         )
     }
 
-    private fun rightDiagonal(): Coordinate {
-        return Coordinate(
+    private fun rightDiagonal(board: Board): Coordinate? {
+        val coordinate = Coordinate(
             location.x + 1,
             location.y + yDelta()
         )
+        val capturePiece = board.getPiece(coordinate)
+        if (capturePiece != null && capturePiece.playerId != this.playerId) {
+            return coordinate
+        }
+        return null
     }
 
     private fun yDelta(): Int {
