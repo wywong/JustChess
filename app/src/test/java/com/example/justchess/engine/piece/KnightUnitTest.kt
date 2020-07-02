@@ -29,7 +29,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(false))
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 8)
         assert(
             destinations.contains(
@@ -106,7 +109,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(false))
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 6)
         assert(
             destinations.contains(
@@ -167,7 +173,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(false))
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 6)
         assert(
             destinations.contains(
@@ -228,7 +237,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(false))
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 6)
         assert(
             destinations.contains(
@@ -289,7 +301,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(false))
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 6)
         assert(
             destinations.contains(
@@ -350,7 +365,10 @@ class KnightUnitTest {
             null,
             true
         )
-        val destinations = knight.getValidDestinations(FakeBoard(true))
+        val validMoves = knight.getValidMoves(FakeBoard(true))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.isEmpty())
     }
 }

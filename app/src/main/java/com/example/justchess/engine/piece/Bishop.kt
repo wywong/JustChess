@@ -3,6 +3,7 @@ package com.example.justchess.engine.piece
 import android.graphics.Bitmap
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 import com.example.justchess.engine.piece.movement.DiagonalBehavior
 
@@ -18,7 +19,7 @@ class Bishop(
         return Bishop(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         return diagonalBehavior.possibleMoves(board)
     }
 }

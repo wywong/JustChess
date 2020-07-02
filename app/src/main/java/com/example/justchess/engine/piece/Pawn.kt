@@ -15,7 +15,7 @@ class Pawn(
         return Pawn(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         val possibleDestinations: ArrayList<Coordinate> = ArrayList()
         if (canMoveForwardTwice(board)) {
             possibleDestinations.add(forwardTwice())

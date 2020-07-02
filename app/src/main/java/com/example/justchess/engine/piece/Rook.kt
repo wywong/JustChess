@@ -18,7 +18,7 @@ class Rook(
         return Rook(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         return plusBehavior.possibleMoves(board)
     }
 }

@@ -15,7 +15,7 @@ class Knight(
         return Knight(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         val possibleDestinations: ArrayList<Coordinate> = ArrayList()
         possibleDestinations.addAll(topDestinations())
         possibleDestinations.addAll(rightDestinations())

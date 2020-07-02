@@ -28,7 +28,10 @@ class BishopUnitTest {
             null,
             true
         )
-        val destinations = bishop.getValidDestinations(FakeBoard(false))
+        val validMoves = bishop.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 13)
         // top left and bottom right
         for (z in 0 until 8) {
@@ -103,12 +106,15 @@ class BishopUnitTest {
             null,
             true
         )
-        val destinations = bishop.getValidDestinations(
+        val validMoves = bishop.getValidMoves(
             FakeBoard(
                 false,
                 Bishop(Coordinate(4, 2), 0, null, true)
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 10)
         // top left and bottom right
         for (z in 0 until 8) {
@@ -157,12 +163,15 @@ class BishopUnitTest {
             null,
             true
         )
-        val destinations = bishop.getValidDestinations(
+        val validMoves = bishop.getValidMoves(
             FakeBoard(
                 false,
                 Bishop(Coordinate(4, 2), 1, null, true)
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 11)
         // top left and bottom right
         for (z in 0 until 8) {

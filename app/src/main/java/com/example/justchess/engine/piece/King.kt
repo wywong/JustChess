@@ -3,6 +3,7 @@ package com.example.justchess.engine.piece
 import android.graphics.Bitmap
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 class King(
@@ -15,10 +16,30 @@ class King(
         return King(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossible(board: Board): Collection<Collection<Move>> {
+        val moves = super.getPossible(board)
+        val castleLeftMoves = castleLeft(board)
+        val castleMoves = arrayListOf<Collection<Move>>()
+        if (castleLeftMoves.isNotEmpty()) {
+            castleMoves.add(castleLeftMoves)
+        }
+        val castleRightMoves = castleRight(board)
+        if (castleRightMoves.isNotEmpty()) {
+            castleMoves.add(castleRightMoves)
+        }
+        return if (castleMoves.isEmpty()) {
+            moves
+        } else {
+            castleMoves.addAll(moves)
+            castleMoves
+        }
+    }
+
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         val possibilities = hashSetOf<Coordinate>()
         for (xDelta in (-1..1)) {
             for (yDelta in (-1..1)) {
+                if (xDelta == 0 && yDelta == 0) continue
                 possibilities.add(
                     Coordinate(
                         location.x + xDelta,
@@ -27,59 +48,48 @@ class King(
                 )
             }
         }
-        possibilities.remove(location)
-        val castleLeftCoordinate: Coordinate? = castleLeft(board)
-        if (castleLeftCoordinate != null) {
-            possibilities.add(castleLeftCoordinate)
-        }
-        val castleRightCoordinate: Coordinate? = castleRight(board)
-        if (castleRightCoordinate != null) {
-            possibilities.add(castleRightCoordinate)
-        }
         return possibilities
     }
 
-    private fun castleLeft(board: Board): Coordinate? {
+    private fun castleLeft(board: Board): Collection<Move> {
         if (canCastle(board)) {
-            val left1: Piece? = board.getPiece(
-                Coordinate(location.x - 1, location.y)
-            )
-            val left2: Piece? = board.getPiece(
-                Coordinate(location.x - 2, location.y)
-            )
+            val rookDestination = Coordinate(location.x - 1, location.y)
+            val left1: Piece? = board.getPiece(rookDestination)
+            val kingDestination = Coordinate(location.x - 2, location.y)
+            val left2: Piece? = board.getPiece(kingDestination)
             val left3: Piece? = board.getPiece(
                 Coordinate(location.x - 3, location.y)
             )
-            val left4: Piece? = board.getPiece(
-                Coordinate(location.x - 4, location.y)
-            )
+            val rookLocation = Coordinate(location.x - 4, location.y)
+            val rook: Piece? = board.getPiece(rookLocation)
             val gapEmpty: Boolean = left1 == null && left2 == null && left3 == null
-            val hasRookNotMoved: Boolean = left4 != null && !left4.hasMoved()
-            if (gapEmpty && hasRookNotMoved) {
-                return Coordinate(location.x - 2, location.y)
+            if (gapEmpty && rook != null && !rook.hasMoved()) {
+                return listOf(
+                    Move(kingDestination, this),
+                    Move(rookDestination, rook)
+                )
             }
         }
-        return null
+        return emptyList()
     }
 
-    private fun castleRight(board: Board): Coordinate? {
+    private fun castleRight(board: Board): Collection<Move> {
         if (canCastle(board)) {
-            val right1: Piece? = board.getPiece(
-                Coordinate(location.x + 1, location.y)
-            )
-            val right2: Piece? = board.getPiece(
-                Coordinate(location.x + 2, location.y)
-            )
-            val right3: Piece? = board.getPiece(
-                Coordinate(location.x + 3, location.y)
-            )
+            val rookDestination = Coordinate(location.x + 1, location.y)
+            val right1: Piece? = board.getPiece(rookDestination)
+            val kingDestination = Coordinate(location.x + 2, location.y)
+            val right2: Piece? = board.getPiece(kingDestination)
+            val rookLocation = Coordinate(location.x + 3, location.y)
+            val rook: Piece? = board.getPiece(rookLocation)
             val gapEmpty: Boolean = right1 == null && right2 == null
-            val hasRookNotMoved: Boolean = right3 != null && !right3.hasMoved()
-            if (gapEmpty && hasRookNotMoved) {
-                return Coordinate(location.x + 2, location.y)
+            if (gapEmpty && rook != null && !rook.hasMoved()) {
+                return listOf(
+                    Move(kingDestination, this),
+                    Move(rookDestination, rook)
+                )
             }
         }
-        return null
+        return emptyList()
     }
 
     private fun canCastle(board: Board): Boolean {

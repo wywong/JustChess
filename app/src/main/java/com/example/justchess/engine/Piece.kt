@@ -29,14 +29,20 @@ interface Piece {
     fun updateLocation(coordinate: Coordinate): Piece
 
     /**
-     * returns a collection with valid coordinates to move to,
-     * this is a subset of possible destinations that excludes moves
+     * returns a collection with valid moves for this piece,
+     * this is a subset of possible moves and excludes moves
      * that cause the king to be in check
      */
-    fun getValidDestinations(board: Board): Collection<Coordinate>
+    fun getValidMoves(board: Board): Collection<Collection<Move>>
 
     /**
-     * returns a collection with possible coordinates to move to
+     * returns a collection with possible collections of moves to apply,
+     * multiple moves are needed to support castling
+     */
+    fun getPossibleMoves(board: Board): Collection<Collection<Move>>
+
+    /**
+     * returns a list of possible destination coordinates for this piece, does not include castling
      */
     fun getPossibleDestinations(board: Board): Collection<Coordinate>
 }

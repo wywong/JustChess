@@ -20,7 +20,7 @@ class Queen(
         return Queen(coordinate, playerId, image, true)
     }
 
-    override fun getPossible(board: Board): Collection<Coordinate> {
+    override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
         val moves = arrayListOf<Coordinate>()
         moves.addAll(diagonalBehavior.possibleMoves(board))
         moves.addAll(plusBehavior.possibleMoves(board))

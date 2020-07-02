@@ -28,7 +28,10 @@ class QueenUnitTest {
             null,
             true
         )
-        val destinations = queen.getValidDestinations(FakeBoard(false))
+        val validMoves = queen.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 27)
         for (z in 0 until 8) {
             if (z == 3) continue
@@ -117,12 +120,15 @@ class QueenUnitTest {
             null,
             true
         )
-        val destinations = queen.getValidDestinations(
+        val validMoves = queen.getValidMoves(
             FakeBoard(
                 false,
                 Queen(Coordinate(4, 2), 0, null, true)
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 24)
         for (z in 0 until 8) {
             if (z == 3) continue
@@ -186,12 +192,15 @@ class QueenUnitTest {
             null,
             true
         )
-        val destinations = queen.getValidDestinations(
+        val validMoves = queen.getValidMoves(
             FakeBoard(
                 false,
                 Queen(Coordinate(4, 2), 1, null, true)
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 25)
         assert(
             destinations.contains(

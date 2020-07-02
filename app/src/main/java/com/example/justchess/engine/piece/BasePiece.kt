@@ -2,6 +2,7 @@ package com.example.justchess.engine.piece
 
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 abstract class BasePiece(private val moved: Boolean) : Piece {
@@ -10,32 +11,65 @@ abstract class BasePiece(private val moved: Boolean) : Piece {
         return moved
     }
 
-    override fun getValidDestinations(board: Board): Collection<Coordinate> {
-        return getPossibleDestinations(board)
-            .filter{
-                coordinate -> isKingCheckedAfterMove(coordinate, board)
+    override fun getValidMoves(board: Board): Collection<Collection<Move>> {
+        return getPossibleMoves(board)
+            .filter { moves ->
+                isKingCheckedAfterMoves(moves, board)
             }
     }
 
+    override fun getPossibleMoves(board: Board): Collection<Collection<Move>> {
+        return getPossible(board).filter { moves ->
+            areMovesValid(moves, board)
+        }
+    }
+
     override fun getPossibleDestinations(board: Board): Collection<Coordinate> {
-        return getPossible(board).filter {
-            coordinate -> isMovePossible(coordinate, board)
+        return getPossibleCoordinates(board).filter { coordinate ->
+            isDestinationValid(coordinate, board)
         }
     }
 
-    protected abstract fun getPossible(board: Board): Collection<Coordinate>
-
-    private fun isMovePossible(targetCoordinate: Coordinate, board: Board): Boolean {
-        return if (Coordinate.inBounds(targetCoordinate)) {
-            val targetPiece: Piece? = board.getPiece(targetCoordinate)
-            return targetPiece?.playerId != this.playerId
-        } else {
-            false
-        }
+    protected open fun getPossible(board: Board): Collection<Collection<Move>> {
+        return getPossibleCoordinates(board)
+            .map { coordinate ->
+                listOf(Move(coordinate, this))
+            }
     }
 
-    private fun isKingCheckedAfterMove(targetCoordinate: Coordinate, board: Board): Boolean {
-        val prospectiveBoard = board.movePiece(targetCoordinate, this)
+    protected abstract fun getPossibleCoordinates(board: Board): Collection<Coordinate>
+
+    /**
+     * returns true if all moves are possible, otherwise false
+     */
+    private fun areMovesValid(moves: Collection<Move>, board: Board): Boolean {
+        val allPossible: Boolean = moves.all { move -> isMoveValid(move, board) }
+        return moves.isNotEmpty() && allPossible
+    }
+
+    /**
+     * returns true if the destination of the move is in the bounds of the board
+     *         and if the destination coordinate does not contain a piece with the same player id
+     *         otherwise false
+     */
+    private fun isMoveValid(move: Move, board: Board): Boolean {
+        return isDestinationValid(move.destination, board)
+    }
+
+    private fun isDestinationValid(destination: Coordinate, board: Board): Boolean {
+        val destinationInBounds = Coordinate.inBounds(destination)
+        val targetPiece: Piece? = board.getPiece(destination)
+        val destinationEmptyOrDifferentPlayer = targetPiece?.playerId != this.playerId
+        return destinationInBounds && destinationEmptyOrDifferentPlayer
+    }
+
+    /**
+     * returns true if the king is checked after applying the moves, otherwise false
+     */
+    private fun isKingCheckedAfterMoves(moves: Collection<Move>, board: Board): Boolean {
+        val prospectiveBoard = moves.fold(board, { updatedBoard, move ->
+            updatedBoard.movePiece(move.destination, move.piece)
+        })
         return !prospectiveBoard.isKingInCheck(this.playerId)
     }
 }

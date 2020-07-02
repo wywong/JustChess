@@ -29,7 +29,10 @@ class RookUnitTest {
             true
         )
 
-        val destinations = rook.getValidDestinations(FakeBoard(false))
+        val validMoves = rook.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 14)
         for (z in 0 until 8) {
             if (z == 3) continue
@@ -64,13 +67,16 @@ class RookUnitTest {
             true
         )
 
-        val destinations = rook.getValidDestinations(
+        val validMoves = rook.getValidMoves(
             FakeBoard(
                 false, Rook(
                     Coordinate(3, 2), 0, null, true
                 )
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 11)
         for (z in 4 until 8) {
             assert(
@@ -104,13 +110,16 @@ class RookUnitTest {
             true
         )
 
-        val destinations = rook.getValidDestinations(
+        val validMoves = rook.getValidMoves(
             FakeBoard(
                 false, Rook(
                     Coordinate(3, 2), 1, null, true
                 )
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 12)
         assert(
             destinations.contains(

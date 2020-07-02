@@ -28,7 +28,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 8)
         assert(
             destinations.contains(
@@ -104,7 +107,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
         assert(
             destinations.contains(
@@ -156,7 +162,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
         assert(
             destinations.contains(
@@ -208,7 +217,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
         assert(
             destinations.contains(
@@ -260,7 +272,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
         assert(
             destinations.contains(
@@ -312,7 +327,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 3)
         assert(
             destinations.contains(
@@ -348,7 +366,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 3)
         assert(
             destinations.contains(
@@ -384,7 +405,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 3)
         assert(
             destinations.contains(
@@ -420,7 +444,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(false))
+        val validMoves = king.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 3)
         assert(
             destinations.contains(
@@ -456,7 +483,10 @@ class KingUnitTest {
             null,
             true
         )
-        val destinations = king.getValidDestinations(FakeBoard(true))
+        val validMoves = king.getValidMoves(FakeBoard(true))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.isEmpty())
     }
 
@@ -468,7 +498,7 @@ class KingUnitTest {
             null,
             false
         )
-        val destinations = king.getValidDestinations(
+        val validMoves = king.getValidMoves(
             FakeBoard(
                 false,
                 Rook(
@@ -479,8 +509,12 @@ class KingUnitTest {
                 )
             )
         )
-        assert(destinations.size == 6)
-        assert(destinations.contains(Coordinate(2, 7)))
+        assert(validMoves.size == 6)
+        val castleMoveCoordinates = validMoves.find { moves ->
+            moves.size == 2
+        }?.map { move -> move.destination } ?: emptyList()
+        assert(castleMoveCoordinates.contains(Coordinate(2, 7)))
+        assert(castleMoveCoordinates.contains(Coordinate(3, 7)))
     }
 
     @Test
@@ -491,7 +525,7 @@ class KingUnitTest {
             null,
             false
         )
-        val destinations = king.getValidDestinations(
+        val validMoves = king.getValidMoves(
             FakeBoard(
                 false,
                 Rook(
@@ -502,8 +536,11 @@ class KingUnitTest {
                 )
             )
         )
-        assert(destinations.size == 6)
-        assert(destinations.contains(Coordinate(6, 7)))
+        val castleMoveCoordinates = validMoves.find { moves ->
+            moves.size == 2
+        }?.map { move -> move.destination } ?: emptyList()
+        assert(castleMoveCoordinates.contains(Coordinate(6, 7)))
+        assert(castleMoveCoordinates.contains(Coordinate(5, 7)))
     }
 
     @Test
@@ -514,7 +551,7 @@ class KingUnitTest {
             null,
             false
         )
-        val destinations = king.getValidDestinations(
+        val validMoves = king.getValidMoves(
             FakeBoard(
                 false,
                 Rook(
@@ -525,6 +562,9 @@ class KingUnitTest {
                 )
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
     }
 
@@ -536,7 +576,7 @@ class KingUnitTest {
             null,
             false
         )
-        val destinations = king.getValidDestinations(
+        val validMoves = king.getValidMoves(
             FakeBoard(
                 false,
                 Rook(
@@ -547,6 +587,9 @@ class KingUnitTest {
                 )
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.size == 5)
     }
 
@@ -558,7 +601,7 @@ class KingUnitTest {
             null,
             false
         )
-        val destinations = king.getValidDestinations(
+        val validMoves = king.getValidMoves(
             FakeBoard(
                 true,
                 Rook(
@@ -569,6 +612,9 @@ class KingUnitTest {
                 )
             )
         )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
         assert(destinations.isEmpty())
     }
 
