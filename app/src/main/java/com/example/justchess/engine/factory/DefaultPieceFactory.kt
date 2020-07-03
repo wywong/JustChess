@@ -3,18 +3,19 @@ package com.example.justchess.engine.factory
 import android.graphics.Bitmap
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.PieceFactory
+import com.example.justchess.engine.PieceImageProvider
 import com.example.justchess.engine.piece.*
 
 class DefaultPieceFactory(
-    private val playerId: Int
+    private val playerId: Int,
+    imageProvider: PieceImageProvider
 ) : PieceFactory {
-    // TODO populate these
-    private val bishopBitmap: Bitmap? = null
-    private val kingBitmap: Bitmap? = null
-    private val knightBitmap: Bitmap? = null
-    private val pawnBitmap: Bitmap? = null
-    private val queenBitmap: Bitmap? = null
-    private val rookBitmap: Bitmap? = null
+    private val bishopBitmap: Bitmap? = imageProvider.bishopBitmap
+    private val kingBitmap: Bitmap? = imageProvider.kingBitmap
+    private val knightBitmap: Bitmap? = imageProvider.knightBitmap
+    private val pawnBitmap: Bitmap? = imageProvider.pawnBitmap
+    private val queenBitmap: Bitmap? = imageProvider.queenBitmap
+    private val rookBitmap: Bitmap? = imageProvider.rookBitmap
 
     override fun createBishop(location: Coordinate): Bishop {
         return Bishop(location, playerId, bishopBitmap, false)

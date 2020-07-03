@@ -1,15 +1,21 @@
 package com.example.justchess.engine.factory
 
-import com.example.justchess.engine.Coordinate
-import com.example.justchess.engine.Game
-import com.example.justchess.engine.GameFactory
-import com.example.justchess.engine.Piece
+import com.example.justchess.engine.*
 import com.example.justchess.engine.game.DefaultBoard
 import com.example.justchess.engine.game.DefaultGame
 
-class DefaultGameFactory : GameFactory {
-    private val whitePieceFactory: DefaultPieceFactory = DefaultPieceFactory(0)
-    private val blackPieceFactory: DefaultPieceFactory = DefaultPieceFactory(1)
+class DefaultGameFactory(
+    whitePieceImageProvider: PieceImageProvider,
+    blackPieceImageProvider: PieceImageProvider
+) : GameFactory {
+    private val whitePieceFactory: DefaultPieceFactory = DefaultPieceFactory(
+        0,
+        whitePieceImageProvider
+    )
+    private val blackPieceFactory: DefaultPieceFactory = DefaultPieceFactory(
+        1,
+        blackPieceImageProvider
+    )
 
     private val blackKingLocation: Coordinate = Coordinate(4, 0)
     private val whiteKingLocation: Coordinate = Coordinate(4, 7)

@@ -5,9 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import com.example.justchess.engine.Coordinate
 import kotlin.math.min
 
 private data class Tile(val rect: Rect, val paint: Paint)
@@ -16,46 +16,22 @@ class ChessBoardView(
     context: Context,
     width: Int,
     height: Int
-) : SurfaceView(context), Runnable {
-    private val gameThread = Thread(this)
+) : SurfaceView(context) {
 
     private val tileLength: Int = min(width, height) / (ChessUtil.tilesPerSide + 1)
     private val boardLength: Int = ChessUtil.tilesPerSide * tileLength
     private val boardTopX: Int = tileLength / 2
     private val boardTopY: Int = (height - boardLength) / 2
     private val tiles = arrayListOf<Tile>()
+    private val coordinateToRect = mutableMapOf<Coordinate, Rect>()
+
+    private var viewModel: GameViewModel? = null
 
     init {
         preComputeTiles()
-    }
-
-    fun pause() {
-        try {
-            gameThread.join()
-        } catch (e: InterruptedException) {
-            Log.e("Error", "Error joining thread")
-        }
-    }
-
-    fun resume() {
-        gameThread.start()
-    }
-
-    override fun run() {
-        draw()
-    }
-
-    private fun draw() {
         holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(p0: SurfaceHolder) {
-                if (holder.surface.isValid) {
-                    val canvas = holder.lockCanvas()
-
-                    drawBackground(canvas)
-                    drawBoard(canvas)
-
-                    holder.unlockCanvasAndPost(canvas)
-                }
+                draw()
             }
 
             override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
@@ -68,6 +44,22 @@ class ChessBoardView(
         })
     }
 
+    fun setViewModel(gameViewModel: GameViewModel) {
+        viewModel = gameViewModel
+    }
+
+    private fun draw() {
+        if (holder.surface.isValid) {
+            val canvas = holder.lockCanvas()
+
+            drawBackground(canvas)
+            drawBoard(canvas)
+            drawPieces(canvas)
+
+            holder.unlockCanvasAndPost(canvas)
+        }
+    }
+
     private fun drawBackground(canvas: Canvas) {
         canvas.drawRGB(0, 0, 0)
     }
@@ -75,6 +67,19 @@ class ChessBoardView(
     private fun drawBoard(canvas: Canvas) {
         for (tile in tiles) {
             canvas.drawRect(tile.rect, tile.paint)
+        }
+    }
+
+    private fun drawPieces(canvas: Canvas) {
+        viewModel?.pieces?.forEach { piece ->
+            if (piece.image != null) {
+                canvas.drawBitmap(
+                    piece.image!!,
+                    null,
+                    coordinateToRect[piece.location]!!,
+                    null
+                )
+            }
         }
     }
 
@@ -99,6 +104,8 @@ class ChessBoardView(
                     paint2
                 }
                 tiles.add(Tile(rect, paint))
+                val coordinate = Coordinate(row, col)
+                coordinateToRect[coordinate] = rect
             }
         }
     }

@@ -2,11 +2,22 @@ package com.example.justchess.controller
 
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.GameFactory
+import com.example.justchess.engine.PieceImageProvider
 import com.example.justchess.engine.factory.DefaultGameFactory
 import org.junit.Test
 
 class TwoPersonGameControllerUnitTest {
-    private val gameFactory: GameFactory = DefaultGameFactory()
+    private val emptyImageProvider: PieceImageProvider = PieceImageProvider(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+    )
+    private val gameFactory: GameFactory = DefaultGameFactory(
+        emptyImageProvider, emptyImageProvider
+    )
 
     @Test
     fun can_select_white_pieces_during_white_turn() {

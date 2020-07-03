@@ -3,11 +3,22 @@ package com.example.justchess.engine.factory
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.GameFactory
+import com.example.justchess.engine.PieceImageProvider
 import com.example.justchess.engine.piece.*
 import org.junit.Test
 
 class GameFactoryUnitTest {
-    private val gameFactory: GameFactory = DefaultGameFactory()
+    private val emptyImageProvider: PieceImageProvider = PieceImageProvider(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+    )
+    private val gameFactory: GameFactory = DefaultGameFactory(
+        emptyImageProvider, emptyImageProvider
+    )
 
     @Test
     fun create_new_game_32_pieces() {
