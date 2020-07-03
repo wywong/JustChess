@@ -14,7 +14,7 @@ abstract class BasePiece(private val moved: Boolean) : Piece {
     override fun getValidMoves(board: Board): Collection<Collection<Move>> {
         return getPossibleMoves(board)
             .filter { moves ->
-                isKingCheckedAfterMoves(moves, board)
+                !isKingCheckedAfterMoves(moves, board)
             }
     }
 
@@ -70,6 +70,6 @@ abstract class BasePiece(private val moved: Boolean) : Piece {
         val prospectiveBoard = moves.fold(board, { updatedBoard, move ->
             updatedBoard.movePiece(move.destination, move.piece)
         })
-        return !prospectiveBoard.isKingInCheck(this.playerId)
+        return prospectiveBoard.isKingInCheck(this.playerId)
     }
 }

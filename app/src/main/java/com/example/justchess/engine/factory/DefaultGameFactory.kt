@@ -11,8 +11,8 @@ class DefaultGameFactory : GameFactory {
     private val whitePieceFactory: DefaultPieceFactory = DefaultPieceFactory(0)
     private val blackPieceFactory: DefaultPieceFactory = DefaultPieceFactory(1)
 
-    private val whiteKingLocation: Coordinate = Coordinate(4, 0)
-    private val blackKingLocation: Coordinate = Coordinate(4, 7)
+    private val blackKingLocation: Coordinate = Coordinate(4, 0)
+    private val whiteKingLocation: Coordinate = Coordinate(4, 7)
 
     override fun createNewGame(): Game {
         val collector: MutableMap<Coordinate, Piece> = mutableMapOf()
