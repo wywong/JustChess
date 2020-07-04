@@ -1,10 +1,7 @@
 package com.example.justchess
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -14,34 +11,31 @@ import kotlin.math.min
 private data class Tile(val rect: Rect, val paint: Paint)
 
 class ChessBoardView(
-    context: Context,
-    width: Int,
-    height: Int
+    context: Context
 ) : SurfaceView(context) {
 
-    private val tileLength: Int = min(width, height) / (ChessUtil.tilesPerSide + 1)
-    private val boardLength: Int = ChessUtil.tilesPerSide * tileLength
-    private val boardTopX: Int = tileLength / 2
-    private val boardTopY: Int = (height - boardLength) / 2
-    private val tiles = arrayListOf<Tile>()
+    private var tileLength: Int = 0
+    private var boardLength: Int = 0
+    private var boardTopX: Int = 0
+    private var boardTopY: Int = 0
+    private var tiles = arrayListOf<Tile>()
     private val coordinateToRect = mutableMapOf<Coordinate, Rect>()
 
     private val viewListeners = arrayListOf<ChessBoardViewListener>()
     private var viewModel: GameViewModel? = null
 
     init {
-        preComputeTiles()
         holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(p0: SurfaceHolder) {
+                computeSizes()
+                preComputeTiles()
                 draw()
             }
 
             override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
-                // TODO
             }
 
             override fun surfaceDestroyed(p0: SurfaceHolder) {
-                // TODO
             }
         })
     }
@@ -150,6 +144,22 @@ class ChessBoardView(
                 )
             }
         }
+    }
+
+    /**
+     * computes the tile length, board length, and origin of the board
+     * and stores this information in private variables
+     */
+    private fun computeSizes() {
+        val point = Point()
+        display?.getRealSize(point)
+        val width = point.x
+        val height = point.y
+        tileLength = min(width, height) / (ChessUtil.tilesPerSide + 1)
+        boardLength = ChessUtil.tilesPerSide * tileLength
+        boardTopX = tileLength / 2
+        boardTopY = (height - boardLength) / 2
+        tiles = arrayListOf()
     }
 
     /**
