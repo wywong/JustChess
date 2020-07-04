@@ -36,12 +36,12 @@ abstract class BaseGameController(
         val moves = validMovesLookup[coordinate]
         if (!moves.isNullOrEmpty()) {
             game.applyMoves(moves)
+            postPlayerMoves()
             viewModel = GameViewModel(
                 game.getCurrentBoard().getPieces(),
                 null,
                 emptyList()
             )
-            postPlayerMoves()
         }
     }
 
