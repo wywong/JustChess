@@ -1,51 +1,20 @@
 package com.example.justchess
 
-import android.graphics.BitmapFactory
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.justchess.controller.TwoPersonGameController
-import com.example.justchess.engine.Coordinate
-import com.example.justchess.engine.PieceImageProvider
-import com.example.justchess.engine.factory.DefaultGameFactory
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val chessView = ChessBoardView(this)
-
-        val controller = createController()
-        chessView.addViewListener(object : ChessBoardViewListener {
-            override fun onCoordinateSelected(coordinate: Coordinate) {
-                controller.selectCoordinate(coordinate)
-                chessView.setViewModel(
-                    controller.getViewModel()
-                )
-            }
-        })
-        chessView.setViewModel(controller.getViewModel())
-        setContentView(chessView)
+        setContentView(R.layout.activity_main)
     }
 
-    private fun createController(): GameController {
-        val blackImageProvider = PieceImageProvider(
-            BitmapFactory.decodeResource(resources, R.drawable.black_bishop),
-            BitmapFactory.decodeResource(resources, R.drawable.black_king),
-            BitmapFactory.decodeResource(resources, R.drawable.black_knight),
-            BitmapFactory.decodeResource(resources, R.drawable.black_pawn),
-            BitmapFactory.decodeResource(resources, R.drawable.black_queen),
-            BitmapFactory.decodeResource(resources, R.drawable.black_rook)
-        )
-        val whiteImageProvider = PieceImageProvider(
-            BitmapFactory.decodeResource(resources, R.drawable.white_bishop),
-            BitmapFactory.decodeResource(resources, R.drawable.white_king),
-            BitmapFactory.decodeResource(resources, R.drawable.white_knight),
-            BitmapFactory.decodeResource(resources, R.drawable.white_pawn),
-            BitmapFactory.decodeResource(resources, R.drawable.white_queen),
-            BitmapFactory.decodeResource(resources, R.drawable.white_rook)
-        )
-        val factory = DefaultGameFactory(whiteImageProvider, blackImageProvider)
-        return TwoPersonGameController(factory.createNewGame())
+    fun startNewTwoPersonGame(view: View) {
+        val intent = Intent(this, TwoPersonGameActivity::class.java)
+        startActivity(intent)
     }
 }

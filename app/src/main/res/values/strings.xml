@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Just Chess</string>
+    <string name="new_two_person">New Two Person Game</string>
 </resources>
