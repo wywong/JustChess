@@ -38,7 +38,7 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     2,
-                    0
+                    1
                 )
             )
         )
@@ -46,14 +46,14 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     4,
-                    0
+                    1
                 )
             )
         )
         assert(
             destinations.contains(
                 Coordinate(
-                    0,
+                    1,
                     2
                 )
             )
@@ -61,7 +61,7 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    0,
+                    1,
                     4
                 )
             )
@@ -70,7 +70,7 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     2,
-                    6
+                    5
                 )
             )
         )
@@ -78,14 +78,14 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     4,
-                    6
+                    5
                 )
             )
         )
         assert(
             destinations.contains(
                 Coordinate(
-                    6,
+                    5,
                     2
                 )
             )
@@ -93,7 +93,7 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    6,
+                    5,
                     4
                 )
             )
@@ -102,7 +102,7 @@ class KnightUnitTest {
 
     @Test
     fun top_moves_not_valid() {
-        val origin = Coordinate(3, 2)
+        val origin = Coordinate(2, 1)
         val knight = Knight(
             origin,
             0,
@@ -118,7 +118,7 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     0,
-                    1
+                    0
                 )
             )
         )
@@ -126,6 +126,14 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     0,
+                    2
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
                     3
                 )
             )
@@ -133,8 +141,72 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    2,
+                    3,
+                    3
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    0
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    4,
+                    2
+                )
+            )
+        )
+    }
+
+    @Test
+    fun bottom_moves_not_valid() {
+        val origin = Coordinate(2, 6)
+        val knight = Knight(
+            origin,
+            0,
+            null,
+            true
+        )
+        val validMoves = knight.getValidMoves(FakeBoard(false))
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
+        assert(destinations.size == 6)
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
                     5
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    0,
+                    7
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    1,
+                    4
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    3,
+                    4
                 )
             )
         )
@@ -149,80 +221,8 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    6,
-                    1
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    6,
-                    3
-                )
-            )
-        )
-    }
-
-    @Test
-    fun bottom_moves_not_valid() {
-        val origin = Coordinate(3, 5)
-        val knight = Knight(
-            origin,
-            0,
-            null,
-            true
-        )
-        val validMoves = knight.getValidMoves(FakeBoard(false))
-        val destinations = validMoves.flatMap { moves ->
-            moves.map { move -> move.destination }
-        }
-        assert(destinations.size == 6)
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    4
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    6
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    4
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    0,
-                    6
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    6,
-                    4
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    6,
-                    6
+                    4,
+                    7
                 )
             )
         )
@@ -230,7 +230,7 @@ class KnightUnitTest {
 
     @Test
     fun left_moves_not_valid() {
-        val origin = Coordinate(2, 3)
+        val origin = Coordinate(1, 2)
         val knight = Knight(
             origin,
             0,
@@ -245,7 +245,15 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    1,
+                    0,
+                    0
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    2,
                     0
                 )
             )
@@ -254,15 +262,7 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     3,
-                    0
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    1,
-                    6
+                    1
                 )
             )
         )
@@ -270,22 +270,22 @@ class KnightUnitTest {
             destinations.contains(
                 Coordinate(
                     3,
-                    6
+                    3
                 )
             )
         )
         assert(
             destinations.contains(
                 Coordinate(
-                    5,
-                    2
+                    0,
+                    4
                 )
             )
         )
         assert(
             destinations.contains(
                 Coordinate(
-                    5,
+                    2,
                     4
                 )
             )
@@ -294,7 +294,7 @@ class KnightUnitTest {
 
     @Test
     fun right_moves_not_valid() {
-        val origin = Coordinate(5, 3)
+        val origin = Coordinate(6, 3)
         val knight = Knight(
             origin,
             0,
@@ -309,23 +309,23 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
+                    5,
+                    1
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
+                    7,
+                    1
+                )
+            )
+        )
+        assert(
+            destinations.contains(
+                Coordinate(
                     4,
-                    0
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    6,
-                    0
-                )
-            )
-        )
-        assert(
-            destinations.contains(
-                Coordinate(
-                    2,
                     2
                 )
             )
@@ -333,7 +333,7 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    2,
+                    4,
                     4
                 )
             )
@@ -341,16 +341,16 @@ class KnightUnitTest {
         assert(
             destinations.contains(
                 Coordinate(
-                    4,
-                    6
+                    5,
+                    5
                 )
             )
         )
         assert(
             destinations.contains(
                 Coordinate(
-                    6,
-                    6
+                    7,
+                    5
                 )
             )
         )

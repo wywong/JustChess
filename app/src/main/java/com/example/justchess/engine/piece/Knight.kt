@@ -28,11 +28,11 @@ class Knight(
         return arrayListOf(
             Coordinate(
                 location.x + 1,
-                location.y - 3
+                location.y - 2
             ),
             Coordinate(
                 location.x - 1,
-                location.y - 3
+                location.y - 2
             )
         )
     }
@@ -40,11 +40,11 @@ class Knight(
     private fun rightDestinations(): Collection<Coordinate> {
         return arrayListOf(
             Coordinate(
-                location.x + 3,
+                location.x + 2,
                 location.y - 1
             ),
             Coordinate(
-                location.x + 3,
+                location.x + 2,
                 location.y + 1
             )
         )
@@ -54,11 +54,11 @@ class Knight(
         return arrayListOf(
             Coordinate(
                 location.x + 1,
-                location.y + 3
+                location.y + 2
             ),
             Coordinate(
                 location.x - 1,
-                location.y + 3
+                location.y + 2
             )
         )
     }
@@ -66,11 +66,11 @@ class Knight(
     private fun leftDestinations(): Collection<Coordinate> {
         return arrayListOf(
             Coordinate(
-                location.x - 3,
+                location.x - 2,
                 location.y + 1
             ),
             Coordinate(
-                location.x - 3,
+                location.x - 2,
                 location.y - 1
             )
         )
