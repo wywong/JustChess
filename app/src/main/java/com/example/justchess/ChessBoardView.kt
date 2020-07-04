@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.justchess.engine.Coordinate
@@ -25,6 +26,7 @@ class ChessBoardView(
     private val tiles = arrayListOf<Tile>()
     private val coordinateToRect = mutableMapOf<Coordinate, Rect>()
 
+    private val viewListeners = arrayListOf<ChessBoardViewListener>()
     private var viewModel: GameViewModel? = null
 
     init {
@@ -44,8 +46,50 @@ class ChessBoardView(
         })
     }
 
+    fun addViewListener(viewListener: ChessBoardViewListener) {
+        viewListeners.add(viewListener)
+    }
+
     fun setViewModel(gameViewModel: GameViewModel) {
         viewModel = gameViewModel
+        draw()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_POINTER_DOWN,
+                MotionEvent.ACTION_DOWN -> {
+                    val coordinate = touchCoordinatesToCoordinate(event.x.toInt(), event.y.toInt())
+                    if (coordinate != null) {
+                        viewListeners.forEach { listener ->
+                            listener.onCoordinateSelected(coordinate)
+                        }
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    /**
+     * returns a board coordinate from the x and y values of a touch event,
+     * if there is no corresponding board coordinate then null is returned
+     */
+    private fun touchCoordinatesToCoordinate(x: Int, y: Int): Coordinate? {
+        val relativeX = x - boardTopX
+        val relativeY = y - boardTopY
+        if (relativeX < 0 || relativeY < 0) return null
+
+        val coordinateX = relativeX / tileLength
+        val coordinateY = relativeY / tileLength
+        val xInBounds = coordinateX >= 0 && coordinateX < ChessUtil.tilesPerSide
+        val yInBounds = coordinateY >= 0 && coordinateY < ChessUtil.tilesPerSide
+        return if (xInBounds && yInBounds) {
+            Coordinate(coordinateX, coordinateY)
+        } else {
+            null
+        }
     }
 
     private fun draw() {
@@ -54,22 +98,47 @@ class ChessBoardView(
 
             drawBackground(canvas)
             drawBoard(canvas)
+            drawOverlay(canvas)
             drawPieces(canvas)
 
             holder.unlockCanvasAndPost(canvas)
         }
     }
 
+    /**
+     * fills the background
+     */
     private fun drawBackground(canvas: Canvas) {
         canvas.drawRGB(0, 0, 0)
     }
 
+    /**
+     * draws the chess board
+     */
     private fun drawBoard(canvas: Canvas) {
         for (tile in tiles) {
             canvas.drawRect(tile.rect, tile.paint)
         }
     }
 
+    /**
+     * draws possible destinations for the currently selected piece
+     */
+    private fun drawOverlay(canvas: Canvas) {
+        val paint = Paint()
+        paint.color = Color.argb(100, 10, 10, 120)
+
+        viewModel?.validDestinations?.forEach { destination ->
+            canvas.drawRect(
+                coordinateToRect[destination]!!,
+                paint
+            )
+        }
+    }
+
+    /**
+     * draws each piece on the board
+     */
     private fun drawPieces(canvas: Canvas) {
         viewModel?.pieces?.forEach { piece ->
             if (piece.image != null) {
@@ -83,6 +152,9 @@ class ChessBoardView(
         }
     }
 
+    /**
+     * pre-computes the positions for each of the chess board tiles
+     */
     private fun preComputeTiles() {
         val tileColor1 = Color.rgb(245, 222, 179)
         val paint1 = Paint()

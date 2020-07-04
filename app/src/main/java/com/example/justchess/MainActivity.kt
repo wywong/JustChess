@@ -6,11 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.justchess.controller.TwoPersonGameController
+import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.PieceImageProvider
 import com.example.justchess.engine.factory.DefaultGameFactory
 
 class MainActivity : AppCompatActivity() {
-    private var chessView: ChessBoardView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,13 +21,21 @@ class MainActivity : AppCompatActivity() {
             windowManager.defaultDisplay.getRealSize(point)
         }
 
-        chessView = ChessBoardView(
+        val chessView = ChessBoardView(
             this,
             point.x,
             point.y
         )
         val controller = createController()
-        chessView?.setViewModel(controller.getViewModel())
+        chessView.addViewListener(object : ChessBoardViewListener {
+            override fun onCoordinateSelected(coordinate: Coordinate) {
+                controller.selectCoordinate(coordinate)
+                chessView.setViewModel(
+                    controller.getViewModel()
+                )
+            }
+        })
+        chessView.setViewModel(controller.getViewModel())
         setContentView(chessView)
     }
 
