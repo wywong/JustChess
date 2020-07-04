@@ -15,6 +15,12 @@ interface Board {
     fun getPieces(): Collection<Piece>
 
     /**
+     * @param playerId the id of the player
+     * returns a collection of all chess [Piece]s for the specified player
+     */
+    fun getPiecesForPlayer(playerId: Int): Collection<Piece>
+
+    /**
      * returns a board with piece moved to coordinate
      * WARNING the returned board state may not be valid
      */

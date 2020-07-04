@@ -18,6 +18,10 @@ class DefaultBoard(
         return pieceMap.values
     }
 
+    override fun getPiecesForPlayer(playerId: Int): Collection<Piece> {
+        return pieceMap.values.filter { piece -> piece.playerId == playerId }
+    }
+
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {
         val newPieceMap = pieceMap.toMutableMap()
         newPieceMap.remove(piece.location)
@@ -38,12 +42,10 @@ class DefaultBoard(
     override fun isKingInCheck(playerId: Int): Boolean {
         val kingLocation = getPlayerKingLocation(playerId)
         val otherPlayerId = ChessUtil.getOtherPlayerId(playerId)
-        pieceMap.values.forEach { piece ->
-            if (piece.playerId == otherPlayerId) {
-                val destinations = piece.getPossibleDestinations(this)
-                if (destinations.contains(kingLocation)) {
-                    return true
-                }
+        getPiecesForPlayer(otherPlayerId).forEach { piece ->
+            val destinations = piece.getPossibleDestinations(this)
+            if (destinations.contains(kingLocation)) {
+                return true
             }
         }
         return false

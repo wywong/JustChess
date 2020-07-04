@@ -13,6 +13,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    fun startNewSinglePersonGame(view: View) {
+        val intent = Intent(this, SinglePersonGameActivity::class.java)
+        startActivity(intent)
+    }
+
     fun startNewTwoPersonGame(view: View) {
         val intent = Intent(this, TwoPersonGameActivity::class.java)
         startActivity(intent)

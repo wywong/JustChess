@@ -20,6 +20,10 @@ class FakeBoard(
         return ArrayList()
     }
 
+    override fun getPiecesForPlayer(playerId: Int): Collection<Piece> {
+        return ArrayList()
+    }
+
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {
         return this
     }
