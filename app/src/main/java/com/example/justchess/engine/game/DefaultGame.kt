@@ -12,7 +12,7 @@ class DefaultGame(
     private var currentBoard: Board = initialBoard
     private var currentPlayer: Int = initialPlayerTurn
     private var turnHistory: ArrayDeque<Turn> = ArrayDeque()
-    private var listenerLookup = mutableMapOf<Int, GameEventListener>()
+    private var promotablePawnCoordinate: Coordinate? = null
 
     override fun getCurrentBoard(): Board {
         return currentBoard
@@ -32,10 +32,6 @@ class DefaultGame(
         turnHistory.push(turn)
         nextTurn()
         return turn
-    }
-
-    override fun setListener(listener: GameEventListener, playerId: Int) {
-        listenerLookup[playerId] = listener
     }
 
     override fun canUndo(): Boolean {
@@ -68,6 +64,31 @@ class DefaultGame(
         return currentPlayer
     }
 
+    override fun checkmatedPlayerId(): Int? {
+        TODO("NOT IMPLEMENTED")
+    }
+
+    override fun isStalemate(): Boolean {
+        TODO("NOT IMPLEMENTED")
+    }
+
+    override fun getPromotablePawnCoordinate(): Coordinate? {
+        return promotablePawnCoordinate
+    }
+
+    override fun promotePawn(promotedPiece: Piece): Turn {
+        val turn = applyMoves(
+            listOf(
+                Move(
+                    promotedPiece.location,
+                    promotedPiece
+                )
+            )
+        )
+        promotablePawnCoordinate = null
+        return turn
+    }
+
     private fun getRemovedPieces(moves: Collection<Move>): Collection<Piece> {
         return moves.mapNotNull { move ->
             currentBoard.getPiece(move.destination)
@@ -90,14 +111,8 @@ class DefaultGame(
     private fun nextTurn() {
         val promotablePiece = findPromotablePawn()
         when {
-            promotablePiece != null -> {
-                val promotedPiece = listenerLookup[currentPlayer]?.handlePawnPromotion(
-                    promotablePiece.location
-                )
-                promotePawn(promotedPiece)
-            }
-            isStalemate() -> listenerLookup[currentPlayer]?.handleStalemate()
-            isCheckmate() -> listenerLookup[currentPlayer]?.handleCheckmate(currentPlayer)
+            promotablePiece != null ->
+                promotablePawnCoordinate = promotablePiece.location
             else -> changePlayer()
         }
     }
@@ -116,47 +131,6 @@ class DefaultGame(
             }
     }
 
-    /**
-     * promotes pawn to promotedPiece if it exists, otherwise change player
-     */
-    private fun promotePawn(promotedPiece: Piece?) {
-        if (promotedPiece != null) {
-            applyMoves(
-                listOf(
-                    Move(
-                        promotedPiece.location,
-                        promotedPiece
-                    )
-                )
-            )
-        } else {
-            changePlayer()
-        }
-    }
-
-    /**
-     * returns true if the other player cannot make any moves and king is in check
-     */
-    private fun isCheckmate(): Boolean {
-        val nextPlayerHasValidMove =
-            currentBoard.getPiecesForPlayer(otherPlayerId())
-                .any { piece ->
-                    piece.getValidMoves(currentBoard).isNotEmpty()
-                }
-        return !nextPlayerHasValidMove && currentBoard.isKingInCheck(otherPlayerId())
-    }
-
-    /**
-     * returns true if the other player cannot make any moves and king is not in check
-     */
-    private fun isStalemate(): Boolean {
-        val nextPlayerHasValidMove =
-            currentBoard.getPiecesForPlayer(otherPlayerId())
-                .any { piece ->
-                    piece.getValidMoves(currentBoard).isNotEmpty()
-                }
-        return !nextPlayerHasValidMove && !currentBoard.isKingInCheck(otherPlayerId())
-    }
 
     private fun changePlayer() {
         currentPlayer = otherPlayerId()

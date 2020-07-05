@@ -4,12 +4,11 @@ import com.example.justchess.GameController
 import com.example.justchess.GameViewModel
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Game
-import com.example.justchess.engine.GameEventListener
 import com.example.justchess.engine.Move
+import com.example.justchess.engine.Piece
 
 abstract class BaseGameController(
-    private val game: Game,
-    playerGameEventListener: GameEventListener? = null
+    override val game: Game
 ) : GameController {
     private var viewModel: GameViewModel = GameViewModel(
         game.getCurrentBoard().getPieces(),
@@ -18,34 +17,34 @@ abstract class BaseGameController(
     )
     private var validMovesLookup: Map<Coordinate, Collection<Move>> = emptyMap()
 
-    init {
-        if (playerGameEventListener != null) {
-            game.setListener(playerGameEventListener, 0)
-            game.setListener(playerGameEventListener, 1)
-        }
-    }
-
     override fun getViewModel(): GameViewModel {
         return viewModel
     }
 
     override fun selectCoordinate(coordinate: Coordinate) {
         when {
-            isCoordinateValidMove(coordinate) -> executePlayerMoves(coordinate)
+            isCoordinateValidMove(coordinate) -> {
+                executePlayerMoves(validMovesLookup[coordinate])
+                postPlayerMoves()
+            }
             coordinate == viewModel.selectedCoordinate -> clearSelection()
             else -> applySelection(coordinate)
         }
+    }
+
+    override fun promotePawn(promotedPiece: Piece) {
+        game.promotePawn(promotedPiece)
+        postPlayerMoves()
+        clearSelection()
     }
 
     private fun isCoordinateValidMove(coordinate: Coordinate): Boolean {
         return viewModel.validDestinations.contains(coordinate)
     }
 
-    private fun executePlayerMoves(coordinate: Coordinate) {
-        val moves = validMovesLookup[coordinate]
+    protected fun executePlayerMoves(moves: Collection<Move>?) {
         if (!moves.isNullOrEmpty()) {
             game.applyMoves(moves)
-            postPlayerMoves()
             viewModel = GameViewModel(
                 game.getCurrentBoard().getPieces(),
                 null,

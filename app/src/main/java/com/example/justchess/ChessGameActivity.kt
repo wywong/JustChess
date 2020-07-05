@@ -2,15 +2,18 @@ package com.example.justchess
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.justchess.engine.Coordinate
-import com.example.justchess.engine.Game
-import com.example.justchess.engine.PieceImageProvider
+import com.example.justchess.engine.*
 import com.example.justchess.engine.factory.DefaultGameFactory
 
 abstract class ChessGameActivity : AppCompatActivity() {
+    private var gameFactory: GameFactory? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initializeGameFactory()
 
         val chessView = ChessBoardView(this)
 
@@ -18,16 +21,21 @@ abstract class ChessGameActivity : AppCompatActivity() {
         chessView.addViewListener(object : ChessBoardViewListener {
             override fun onCoordinateSelected(coordinate: Coordinate) {
                 controller.selectCoordinate(coordinate)
+                val viewModel = controller.getViewModel()
                 chessView.setViewModel(
-                    controller.getViewModel()
+                    viewModel
                 )
+                val promotablePawnCoordinate = controller.game.getPromotablePawnCoordinate()
+                if (promotablePawnCoordinate != null) {
+                    launchPawnPromotionDialog(controller, chessView, promotablePawnCoordinate)
+                }
             }
         })
         chessView.setViewModel(controller.getViewModel())
         setContentView(chessView)
     }
 
-    private fun createController(): GameController {
+    private fun initializeGameFactory() {
         val blackImageProvider = PieceImageProvider(
             BitmapFactory.decodeResource(resources, R.drawable.black_bishop),
             BitmapFactory.decodeResource(resources, R.drawable.black_king),
@@ -44,9 +52,54 @@ abstract class ChessGameActivity : AppCompatActivity() {
             BitmapFactory.decodeResource(resources, R.drawable.white_queen),
             BitmapFactory.decodeResource(resources, R.drawable.white_rook)
         )
-        val factory = DefaultGameFactory(whiteImageProvider, blackImageProvider)
-        return buildController(factory.createNewGame())
+        gameFactory = DefaultGameFactory(
+            whiteImageProvider,
+            blackImageProvider
+        )
+    }
+
+    private fun getGameFactory(): GameFactory {
+        return gameFactory!!
+    }
+
+    private fun createController(): GameController {
+        return buildController(getGameFactory().createNewGame())
     }
 
     protected abstract fun buildController(game: Game): GameController
+
+    private fun launchPawnPromotionDialog(
+        controller: GameController,
+        chessBoardView: ChessBoardView,
+        coordinate: Coordinate
+    ) {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.promote_pawn)
+            .setItems(
+                R.array.promotion_options
+            ) { _, which ->
+                val pieceFactory = getPieceFactory(controller.game.playerTurn())
+                val piece = when (which) {
+                    0 -> pieceFactory.createBishop(coordinate)
+                    1 -> pieceFactory.createKnight(coordinate)
+                    2 -> pieceFactory.createQueen(coordinate)
+                    else -> pieceFactory.createRook(coordinate)
+                }
+                controller.promotePawn(piece)
+                chessBoardView.setViewModel(
+                    controller.getViewModel()
+                )
+            }
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    private fun getPieceFactory(playerId: Int): PieceFactory {
+        return if (playerId == 0) {
+            getGameFactory().whitePieceFactory
+        } else {
+            getGameFactory().blackPieceFactory
+        }
+    }
 }

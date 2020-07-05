@@ -8,11 +8,11 @@ class DefaultGameFactory(
     whitePieceImageProvider: PieceImageProvider,
     blackPieceImageProvider: PieceImageProvider
 ) : GameFactory {
-    private val whitePieceFactory: DefaultPieceFactory = DefaultPieceFactory(
+    override val whitePieceFactory: PieceFactory = DefaultPieceFactory(
         0,
         whitePieceImageProvider
     )
-    private val blackPieceFactory: DefaultPieceFactory = DefaultPieceFactory(
+    override val blackPieceFactory: PieceFactory = DefaultPieceFactory(
         1,
         blackPieceImageProvider
     )

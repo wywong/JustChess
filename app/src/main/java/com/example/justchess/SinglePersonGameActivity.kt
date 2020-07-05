@@ -6,6 +6,9 @@ import com.example.justchess.engine.Game
 
 class SinglePersonGameActivity : ChessGameActivity() {
     override fun buildController(game: Game): GameController {
-        return SinglePersonGameController(game, FirstBot(1))
+        return SinglePersonGameController(
+            game,
+            FirstBot(1)
+        )
     }
 }

@@ -7,17 +7,15 @@ import com.example.justchess.engine.Game
  * controller for a single person game against a bot
  */
 class SinglePersonGameController(
-    private val game: Game,
+    game: Game,
     private val bot: Bot
 ) : BaseGameController(game) {
     override fun postPlayerMoves() {
         super.postPlayerMoves()
-        executeBotMove()
-    }
-
-    private fun executeBotMove() {
-        game.applyMoves(
-            bot.getNextTurn(game.getCurrentBoard())
-        )
+        if (game.playerTurn() == bot.playerId) {
+            executePlayerMoves(
+                bot.getNextTurn(game.getCurrentBoard())
+            )
+        }
     }
 }

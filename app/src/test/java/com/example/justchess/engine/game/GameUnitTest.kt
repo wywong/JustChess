@@ -3,10 +3,8 @@ package com.example.justchess.engine.game
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Game
 import com.example.justchess.engine.Move
-import com.example.justchess.engine.mocks.FakeGameEventListener
 import com.example.justchess.engine.piece.King
 import com.example.justchess.engine.piece.Pawn
-import com.example.justchess.engine.piece.Queen
 import org.junit.Test
 
 class GameUnitTest {
@@ -73,20 +71,5 @@ class GameUnitTest {
         game.undo()
         assert(game.playerTurn() == 0)
         assert(game.getCurrentBoard().getPiece(Coordinate(0, 0)) != null)
-    }
-
-    @Test
-    fun can_promote_pawn() {
-        val target = Coordinate(2, 0)
-        val game = gameWithPromotablePawn()
-        game.setListener(
-            FakeGameEventListener(
-                Queen(target, 0, null, false)
-            ), 0
-        )
-        game.applyMoves(
-            listOf(Move(target, whitePawn))
-        )
-        assert(game.getCurrentBoard().getPiece(target) is Queen)
     }
 }

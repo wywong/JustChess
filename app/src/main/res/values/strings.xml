@@ -2,4 +2,9 @@
     <string name="app_name">Just Chess</string>
     <string name="new_single_person">New Single Person Game</string>
     <string name="new_two_person">New Two Person Game</string>
+    <string name="promote_pawn">Promote pawn to:</string>
+    <string name="bishop">Bishop</string>
+    <string name="knight">Knight</string>
+    <string name="queen">Queen</string>
+    <string name="rook">Rook</string>
 </resources>
