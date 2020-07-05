@@ -32,7 +32,8 @@ class DefaultGameFactory(
             DefaultBoard(
                 collector,
                 whiteKingLocation,
-                blackKingLocation
+                blackKingLocation,
+                null
             ),
             0
         )

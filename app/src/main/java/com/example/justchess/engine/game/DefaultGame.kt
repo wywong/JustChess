@@ -91,7 +91,8 @@ class DefaultGame(
 
     private fun getRemovedPieces(moves: Collection<Move>): Collection<Piece> {
         return moves.mapNotNull { move ->
-            currentBoard.getPiece(move.destination)
+            val captureLocation = move.piece.captureLocation(move.destination, currentBoard)
+            currentBoard.getPiece(captureLocation)
         }
     }
 

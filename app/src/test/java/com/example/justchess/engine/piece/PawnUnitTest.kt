@@ -109,7 +109,8 @@ class PawnUnitTest {
                     )
                 ),
                 Coordinate(1, 0),
-                Coordinate(7, 7)
+                Coordinate(7, 7),
+                null
             )
         )
         val destinations = validMoves.flatMap { moves ->
@@ -150,7 +151,8 @@ class PawnUnitTest {
                     )
                 ),
                 Coordinate(6, 0),
-                Coordinate(7, 7)
+                Coordinate(7, 7),
+                null
             )
         )
         val destinations = validMoves.flatMap { moves ->
@@ -299,7 +301,8 @@ class PawnUnitTest {
                 )
             ),
             Coordinate(1, 2),
-            Coordinate(7, 7)
+            Coordinate(7, 7),
+            null
         ))
         val destinations = validMoves.flatMap { moves ->
             moves.map { move -> move.destination }
@@ -339,7 +342,8 @@ class PawnUnitTest {
                     )
                 ),
                 Coordinate(6, 2),
-                Coordinate(0, 0)
+                Coordinate(0, 0),
+                null
             )
         )
         val destinations = validMoves.flatMap { moves ->
@@ -385,5 +389,38 @@ class PawnUnitTest {
             moves.map { move -> move.destination }
         }
         assert(destinations.isEmpty())
+    }
+
+    @Test
+    fun pawn_can_en_passant() {
+        val whitePawn = Pawn(
+            Coordinate(4, 4),
+            0,
+            null,
+            true
+        )
+        val validMoves = Pawn(
+            Coordinate(5, 4),
+            1,
+            null,
+            true
+        ).getValidMoves(
+            FakeBoard(
+                false, null, Pair(
+                    Pawn(
+                        Coordinate(4, 2),
+                        0,
+                        null,
+                        false
+                    ), whitePawn
+                )
+            )
+        )
+        val destinations = validMoves.flatMap { moves ->
+            moves.map { move -> move.destination }
+        }
+        assert(destinations.size == 2)
+        assert(destinations.contains(Coordinate(4, 5)))
+        assert(destinations.contains(Coordinate(5, 5)))
     }
 }

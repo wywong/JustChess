@@ -29,6 +29,13 @@ interface Piece {
     fun updateLocation(coordinate: Coordinate): Piece
 
     /**
+     * @param coordinate the coordinate the piece is being moved to
+     * @param board the current board
+     * returns the coordinate that this piece captures for the given coordinate
+     */
+    fun captureLocation(coordinate: Coordinate, board: Board): Coordinate
+
+    /**
      * returns a collection with valid moves for this piece,
      * this is a subset of possible moves and excludes moves
      * that cause the king to be in check

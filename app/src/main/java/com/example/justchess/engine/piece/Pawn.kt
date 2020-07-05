@@ -3,6 +3,7 @@ package com.example.justchess.engine.piece
 import android.graphics.Bitmap
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import kotlin.math.absoluteValue
 
 class Pawn(
     override val location: Coordinate,
@@ -13,6 +14,13 @@ class Pawn(
 
     override fun updateLocation(coordinate: Coordinate): Pawn {
         return Pawn(coordinate, playerId, image, true)
+    }
+
+    override fun captureLocation(coordinate: Coordinate, board: Board): Coordinate {
+        return board.getPiece(coordinate)?.location ?: Coordinate(
+            coordinate.x,
+            coordinate.y - yDelta()
+        )
     }
 
     override fun getPossibleCoordinates(board: Board): Collection<Coordinate> {
@@ -40,7 +48,8 @@ class Pawn(
             location.y + yDelta()
         )
         val capturePiece = board.getPiece(coordinate)
-        if (capturePiece != null && capturePiece.playerId != this.playerId) {
+        val canCaptureDiagonally = capturePiece != null && capturePiece.playerId != this.playerId
+        if (canCaptureDiagonally || canEnPassant(board, coordinate.x)) {
             return coordinate
         }
         return null
@@ -84,7 +93,8 @@ class Pawn(
             location.y + yDelta()
         )
         val capturePiece = board.getPiece(coordinate)
-        if (capturePiece != null && capturePiece.playerId != this.playerId) {
+        val canCaptureDiagonally = capturePiece != null && capturePiece.playerId != this.playerId
+        if (canCaptureDiagonally || canEnPassant(board, coordinate.x)) {
             return coordinate
         }
         return null
@@ -98,4 +108,20 @@ class Pawn(
         }
     }
 
+    private fun canEnPassant(board: Board, x: Int): Boolean {
+        return if (board.lastMovedPiece != null) {
+            val oldPiece = board.lastMovedPiece!!.first
+            val movedPiece = board.lastMovedPiece!!.second
+            val isPawn = movedPiece is Pawn
+            val isDifferentPlayerPiece = movedPiece.playerId != playerId
+            val isTwoForwardMovement =
+                (movedPiece.location.y - oldPiece.location.y).absoluteValue == 2
+
+            val isAdjacent = movedPiece.location.y == location.y && movedPiece.location.x == x
+
+            isPawn && isDifferentPlayerPiece && isTwoForwardMovement && isAdjacent
+        } else {
+            false
+        }
+    }
 }

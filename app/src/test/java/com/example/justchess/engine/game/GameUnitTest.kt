@@ -25,7 +25,8 @@ class GameUnitTest {
                     Pair(blackKing.location, blackKing)
                 ),
                 whiteKing.location,
-                blackKing.location
+                blackKing.location,
+                null
             ),
             0
         )
@@ -40,7 +41,8 @@ class GameUnitTest {
                     Pair(whitePawn.location, whitePawn)
                 ),
                 whiteKing.location,
-                blackKing.location
+                blackKing.location,
+                null
             ),
             0
         )

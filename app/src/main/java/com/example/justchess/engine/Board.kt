@@ -27,6 +27,12 @@ interface Board {
     fun movePiece(coordinate: Coordinate, piece: Piece): Board
 
     /**
+     * returns the a pair for the last moved piece,
+     *         Pair.first is the old value and Pair.second is the new value
+     */
+    val lastMovedPiece: Pair<Piece, Piece>?
+
+    /**
      * returns true if player's king is in check
      */
     fun isKingInCheck(playerId: Int): Boolean

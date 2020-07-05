@@ -43,7 +43,8 @@ class BoardUnitTest {
                 Pair(blackKing.location, blackKing)
             ),
             whiteKing.location,
-            blackKing.location
+            blackKing.location,
+            null
         )
         assert(!board.isKingInCheck(0))
         assert(!board.isKingInCheck(1))
@@ -58,7 +59,8 @@ class BoardUnitTest {
                 Pair(blackRook.location, blackRook)
             ),
             whiteKing.location,
-            blackKing.location
+            blackKing.location,
+            null
         )
         assert(board.isKingInCheck(0))
         assert(!board.isKingInCheck(1))
@@ -74,7 +76,8 @@ class BoardUnitTest {
                 Pair(whitePawn.location, whitePawn)
             ),
             whiteKing.location,
-            blackKing.location
+            blackKing.location,
+            null
         )
         assert(!board.isKingInCheck(0))
         assert(!board.isKingInCheck(1))
@@ -88,7 +91,8 @@ class BoardUnitTest {
                 Pair(blackKing.location, blackKing)
             ),
             whiteKing.location,
-            blackKing.location
+            blackKing.location,
+            null
         )
         val newCoordinate = Coordinate(3, 2)
         val updatedBoard = board.movePiece(newCoordinate, whiteKing) as DefaultBoard
@@ -104,7 +108,8 @@ class BoardUnitTest {
                 Pair(blackKing.location, blackKing)
             ),
             whiteKing.location,
-            blackKing.location
+            blackKing.location,
+            null
         )
         val newCoordinate = Coordinate(1, 0)
         val updatedBoard = board.movePiece(newCoordinate, blackKing) as DefaultBoard

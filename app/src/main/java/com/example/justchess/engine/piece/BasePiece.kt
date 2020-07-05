@@ -11,6 +11,10 @@ abstract class BasePiece(private val moved: Boolean) : Piece {
         return moved
     }
 
+    override fun captureLocation(coordinate: Coordinate, board: Board): Coordinate {
+        return coordinate
+    }
+
     override fun getValidMoves(board: Board): Collection<Collection<Move>> {
         return getPossibleMoves(board)
             .filter { moves ->

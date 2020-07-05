@@ -6,7 +6,8 @@ import com.example.justchess.engine.Piece
 
 class FakeBoard(
     private val kingChecked: Boolean,
-    private val piece: Piece? = null
+    private val piece: Piece? = null,
+    override val lastMovedPiece: Pair<Piece, Piece>? = null
 ) : Board {
     override fun getPiece(location: Coordinate): Piece? {
         return if (this.piece?.location == location) {

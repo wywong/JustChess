@@ -8,7 +8,8 @@ import com.example.justchess.engine.Piece
 class DefaultBoard(
     private val pieceMap: Map<Coordinate, Piece>,
     val whiteKingLocation: Coordinate,
-    val blackKingLocation: Coordinate
+    val blackKingLocation: Coordinate,
+    override val lastMovedPiece: Pair<Piece, Piece>?
 ) : Board {
     override fun getPiece(location: Coordinate): Piece? {
         return pieceMap[location]
@@ -25,7 +26,8 @@ class DefaultBoard(
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {
         val newPieceMap = pieceMap.toMutableMap()
         newPieceMap.remove(piece.location)
-        newPieceMap[coordinate] = piece.updateLocation(coordinate)
+        val updatedPiece = piece.updateLocation(coordinate)
+        newPieceMap[coordinate] = updatedPiece
         val newWhiteKingLocation = if (whiteKingLocation == piece.location) {
             coordinate
         } else {
@@ -36,7 +38,12 @@ class DefaultBoard(
         } else {
             blackKingLocation
         }
-        return DefaultBoard(newPieceMap, newWhiteKingLocation, newBlackKingLocation)
+        return DefaultBoard(
+            newPieceMap,
+            newWhiteKingLocation,
+            newBlackKingLocation,
+            Pair(piece, updatedPiece)
+        )
     }
 
     override fun isKingInCheck(playerId: Int): Boolean {
