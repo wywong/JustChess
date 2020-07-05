@@ -1,14 +1,15 @@
 package com.example.justchess.bot
 
 import com.example.justchess.Bot
-import com.example.justchess.engine.Board
-import com.example.justchess.engine.Move
+import com.example.justchess.ChessUtil
+import com.example.justchess.engine.*
 
 /**
  * A simple bot that picks the first valid move set it finds
  */
 class FirstBot(
-    override val playerId: Int
+    override val playerId: Int,
+    private val pieceFactory: PieceFactory
 ) : Bot {
 
     override fun getNextTurn(board: Board): Collection<Move> {
@@ -21,5 +22,9 @@ class FirstBot(
             }
         }
         return emptyList()
+    }
+
+    override fun getPromotedPiece(coordinate: Coordinate, board: Board): Piece {
+        return pieceFactory.createPromotedPiece(coordinate, ChessUtil.queenId)
     }
 }

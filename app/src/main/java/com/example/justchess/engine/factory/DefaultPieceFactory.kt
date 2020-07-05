@@ -1,7 +1,9 @@
 package com.example.justchess.engine.factory
 
 import android.graphics.Bitmap
+import com.example.justchess.ChessUtil
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Piece
 import com.example.justchess.engine.PieceFactory
 import com.example.justchess.engine.PieceImageProvider
 import com.example.justchess.engine.piece.*
@@ -39,5 +41,14 @@ class DefaultPieceFactory(
 
     override fun createRook(location: Coordinate): Rook {
         return Rook(location, playerId, rookBitmap, false)
+    }
+
+    override fun createPromotedPiece(location: Coordinate, id: Int): Piece {
+        return when (id) {
+            ChessUtil.bishopId -> this.createBishop(location)
+            ChessUtil.knightId -> this.createKnight(location)
+            ChessUtil.queenId -> this.createQueen(location)
+            else -> this.createRook(location)
+        }
     }
 }

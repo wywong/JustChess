@@ -26,6 +26,7 @@ class DefaultBoard(
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {
         val newPieceMap = pieceMap.toMutableMap()
         newPieceMap.remove(piece.location)
+        newPieceMap.remove(piece.captureLocation(coordinate, this))
         val updatedPiece = piece.updateLocation(coordinate)
         newPieceMap[coordinate] = updatedPiece
         val newWhiteKingLocation = if (whiteKingLocation == piece.location) {

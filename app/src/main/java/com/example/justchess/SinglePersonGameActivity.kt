@@ -8,7 +8,10 @@ class SinglePersonGameActivity : ChessGameActivity() {
     override fun buildController(game: Game): GameController {
         return SinglePersonGameController(
             game,
-            FirstBot(1)
+            FirstBot(
+                1,
+                getGameFactory().blackPieceFactory
+            )
         )
     }
 }

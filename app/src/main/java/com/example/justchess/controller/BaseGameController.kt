@@ -8,7 +8,7 @@ import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 abstract class BaseGameController(
-    override val game: Game
+    final override val game: Game
 ) : GameController {
     private var viewModel: GameViewModel = GameViewModel(
         game.getCurrentBoard().getPieces(),
@@ -35,7 +35,11 @@ abstract class BaseGameController(
     override fun promotePawn(promotedPiece: Piece) {
         game.promotePawn(promotedPiece)
         postPlayerMoves()
-        clearSelection()
+        viewModel = GameViewModel(
+            game.getCurrentBoard().getPieces(),
+            null,
+            emptyList()
+        )
     }
 
     private fun isCoordinateValidMove(coordinate: Coordinate): Boolean {

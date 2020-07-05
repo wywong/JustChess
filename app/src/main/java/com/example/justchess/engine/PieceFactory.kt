@@ -32,4 +32,16 @@ interface PieceFactory {
      * returns a new [Rook] at coordinate
      */
     fun createRook(location: Coordinate): Rook
+
+
+    /**
+     * @param location the location of the new piece
+     * @param id the id for what piece we want to build
+     * 0 - Bishop
+     * 1 - Knight
+     * 2 - Queen
+     * otherwise - Rook
+     * returns a new [Piece] from pawn creating
+     */
+    fun createPromotedPiece(location: Coordinate, id: Int): Piece
 }
