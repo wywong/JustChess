@@ -17,6 +17,11 @@ interface Game {
     fun applyMoves(moves: Collection<Move>): Turn
 
     /**
+     * sets event listener for player
+     */
+    fun setListener(listener: GameEventListener, playerId: Int)
+
+    /**
      * returns true if there is at least one turn to undo
      */
     fun canUndo(): Boolean

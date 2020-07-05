@@ -4,10 +4,12 @@ import com.example.justchess.GameController
 import com.example.justchess.GameViewModel
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Game
+import com.example.justchess.engine.GameEventListener
 import com.example.justchess.engine.Move
 
 abstract class BaseGameController(
-    private val game: Game
+    private val game: Game,
+    playerGameEventListener: GameEventListener? = null
 ) : GameController {
     private var viewModel: GameViewModel = GameViewModel(
         game.getCurrentBoard().getPieces(),
@@ -15,6 +17,13 @@ abstract class BaseGameController(
         emptyList()
     )
     private var validMovesLookup: Map<Coordinate, Collection<Move>> = emptyMap()
+
+    init {
+        if (playerGameEventListener != null) {
+            game.setListener(playerGameEventListener, 0)
+            game.setListener(playerGameEventListener, 1)
+        }
+    }
 
     override fun getViewModel(): GameViewModel {
         return viewModel
