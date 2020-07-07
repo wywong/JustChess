@@ -2,7 +2,6 @@ package com.example.justchess.controller
 
 import com.example.justchess.Bot
 import com.example.justchess.engine.Game
-import com.example.justchess.engine.Move
 
 /**
  * controller for a single person game against a bot
