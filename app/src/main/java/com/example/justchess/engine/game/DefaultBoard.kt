@@ -3,6 +3,7 @@ package com.example.justchess.engine.game
 import com.example.justchess.ChessUtil
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 class DefaultBoard(
@@ -21,6 +22,12 @@ class DefaultBoard(
 
     override fun getPiecesForPlayer(playerId: Int): Collection<Piece> {
         return pieceMap.values.filter { piece -> piece.playerId == playerId }
+    }
+
+    override fun applyMoves(moves: Collection<Move>): Board {
+        return moves.fold(this as Board) { board, move ->
+            board.movePiece(move.destination, move.piece)
+        }
     }
 
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {

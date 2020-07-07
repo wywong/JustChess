@@ -11,6 +11,7 @@ class Pawn(
     override val image: Bitmap?,
     private val moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 1
 
     override fun updateLocation(coordinate: Coordinate): Pawn {
         return Pawn(coordinate, playerId, image, true)

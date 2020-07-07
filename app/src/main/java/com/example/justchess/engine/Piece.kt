@@ -4,6 +4,11 @@ import android.graphics.Bitmap
 
 interface Piece {
     /**
+     * returns the score for this piece
+     */
+    val score: Int
+
+    /**
      * the current location of the chess piece
      */
     val location: Coordinate

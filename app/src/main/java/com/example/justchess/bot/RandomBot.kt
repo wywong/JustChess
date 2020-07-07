@@ -1,6 +1,7 @@
 package com.example.justchess.bot
 
 import com.example.justchess.Bot
+import com.example.justchess.ChessUtil
 import com.example.justchess.engine.*
 
 /**
@@ -22,6 +23,6 @@ class RandomBot(
     }
 
     override fun getPromotedPiece(coordinate: Coordinate, board: Board): Piece {
-        return pieceFactory.createPromotedPiece(coordinate, (0..3).random())
+        return pieceFactory.createPromotedPiece(coordinate, ChessUtil.promotionIds.random())
     }
 }

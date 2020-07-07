@@ -12,6 +12,7 @@ class Rook(
     override val image: Bitmap?,
     moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 5
     private val plusBehavior: PlusBehavior = PlusBehavior(location)
 
     override fun updateLocation(coordinate: Coordinate): Piece {

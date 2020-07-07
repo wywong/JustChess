@@ -11,6 +11,7 @@ class Knight(
     override val image: Bitmap?,
     moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 3
     override fun updateLocation(coordinate: Coordinate): Piece {
         return Knight(coordinate, playerId, image, true)
     }

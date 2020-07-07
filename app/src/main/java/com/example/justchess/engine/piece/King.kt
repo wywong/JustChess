@@ -12,6 +12,7 @@ class King(
     override val image: Bitmap?,
     private val moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 1000
     override fun updateLocation(coordinate: Coordinate): King {
         return King(coordinate, playerId, image, true)
     }

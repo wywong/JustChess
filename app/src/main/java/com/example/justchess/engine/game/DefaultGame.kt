@@ -24,7 +24,7 @@ class DefaultGame(
 
     override fun applyMoves(moves: Collection<Move>): Turn {
         val removedPieces = getRemovedPieces(moves)
-        currentBoard = applyMovesToBoard(moves)
+        currentBoard = currentBoard.applyMoves(moves)
         val turn = Turn(
             moves,
             removedPieces
@@ -91,14 +91,8 @@ class DefaultGame(
 
     private fun getRemovedPieces(moves: Collection<Move>): Collection<Piece> {
         return moves.mapNotNull { move ->
-            val captureLocation = move.piece.captureLocation(move.destination, currentBoard)
+            val captureLocation = move.captureLocation(currentBoard)
             currentBoard.getPiece(captureLocation)
-        }
-    }
-
-    private fun applyMovesToBoard(moves: Collection<Move>): Board {
-        return moves.fold(currentBoard) { board, move ->
-            board.movePiece(move.destination, move.piece)
         }
     }
 

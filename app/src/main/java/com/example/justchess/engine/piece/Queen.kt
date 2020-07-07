@@ -13,6 +13,7 @@ class Queen(
     override val image: Bitmap?,
     moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 9
     private val diagonalBehavior = DiagonalBehavior(location)
     private val plusBehavior = PlusBehavior(location)
 

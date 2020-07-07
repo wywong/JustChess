@@ -21,6 +21,11 @@ interface Board {
     fun getPiecesForPlayer(playerId: Int): Collection<Piece>
 
     /**
+     * returns a new board instance with the moves applied
+     */
+    fun applyMoves(moves: Collection<Move>): Board
+
+    /**
      * returns a board with piece moved to coordinate
      * WARNING the returned board state may not be valid
      */

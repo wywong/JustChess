@@ -2,6 +2,7 @@ package com.example.justchess.engine.mocks
 
 import com.example.justchess.engine.Board
 import com.example.justchess.engine.Coordinate
+import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 class FakeBoard(
@@ -23,6 +24,10 @@ class FakeBoard(
 
     override fun getPiecesForPlayer(playerId: Int): Collection<Piece> {
         return ArrayList()
+    }
+
+    override fun applyMoves(moves: Collection<Move>): Board {
+        return this
     }
 
     override fun movePiece(coordinate: Coordinate, piece: Piece): Board {

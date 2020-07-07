@@ -13,6 +13,7 @@ class Bishop(
     override val image: Bitmap?,
     moved: Boolean
 ) : BasePiece(moved) {
+    override val score: Int = 3
     private val diagonalBehavior: DiagonalBehavior = DiagonalBehavior(location)
 
     override fun updateLocation(coordinate: Coordinate): Piece {
