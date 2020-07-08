@@ -119,6 +119,31 @@ class ChessBoardView(
         for (tile in tiles) {
             canvas.drawRect(tile.rect, tile.paint)
         }
+        drawLabels(canvas)
+    }
+
+    private fun drawLabels(canvas: Canvas) {
+        var c = 'a'
+        val paint = Paint()
+        paint.textSize = tileLength * 0.5f
+        paint.setARGB(255, 255, 255, 255)
+        paint.isAntiAlias = true
+        paint.textAlign = Paint.Align.CENTER
+        for (z in 0 until ChessUtil.tilesPerSide) {
+            canvas.drawText(
+                (ChessUtil.tilesPerSide - z).toString(),
+                tileLength / 4f,
+                (boardTopY + (z + 0.75f) * tileLength),
+                paint
+            )
+            canvas.drawText(
+                c.toString(),
+                (boardTopX + (z + 0.5f) * tileLength),
+                (boardTopY + boardLength + tileLength / 2f),
+                paint
+            )
+            c++
+        }
     }
 
     /**
@@ -164,7 +189,7 @@ class ChessBoardView(
         tileLength = min(width, height) / (ChessUtil.tilesPerSide + 1)
         boardLength = ChessUtil.tilesPerSide * tileLength
         boardTopX = tileLength / 2
-        boardTopY = (height - boardLength) / 2
+        boardTopY = tileLength / 2
         tiles = arrayListOf()
     }
 
