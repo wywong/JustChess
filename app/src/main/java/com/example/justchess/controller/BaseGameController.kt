@@ -9,7 +9,7 @@ import com.example.justchess.engine.Move
 import com.example.justchess.engine.Piece
 
 abstract class BaseGameController(
-    final override val game: Game
+    private val game: Game
 ) : GameController {
     private var viewModel: GameViewModel = GameViewModel(
         game.getCurrentBoard().getPieces(),
@@ -18,6 +18,14 @@ abstract class BaseGameController(
     )
     private var validMovesLookup: Map<Coordinate, Collection<Move>> = emptyMap()
     private val listeners = mutableListOf<GameViewModelListener>()
+
+    override fun playerTurn(): Int {
+        return game.playerTurn()
+    }
+
+    override fun getPromotablePawnCoordinate(): Coordinate? {
+        return game.getPromotablePawnCoordinate()
+    }
 
     override fun addViewModelListener(listener: GameViewModelListener) {
         listeners.add(listener)

@@ -7,7 +7,7 @@ import com.example.justchess.engine.Game
  * controller for a single person game against a bot
  */
 class SinglePersonGameController(
-    game: Game,
+    private val game: Game,
     private val bot: Bot
 ) : BaseGameController(game) {
     override fun postPlayerMoves() {

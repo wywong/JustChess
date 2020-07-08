@@ -6,9 +6,14 @@ import com.example.justchess.engine.Piece
 
 interface GameController {
     /**
-     * returns the current game instance
+     * returns the current player turn
      */
-    val game: Game
+    fun playerTurn(): Int
+
+    /**
+     * returns the coordinate of the promotable pawn if it exists
+     */
+    fun getPromotablePawnCoordinate(): Coordinate?
 
     /**
      * adds a view model listener to this controller
