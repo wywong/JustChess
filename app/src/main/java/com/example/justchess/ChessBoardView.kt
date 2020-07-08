@@ -12,7 +12,7 @@ private data class Tile(val rect: Rect, val paint: Paint)
 
 class ChessBoardView(
     context: Context
-) : SurfaceView(context) {
+) : SurfaceView(context), GameViewModelListener {
 
     private var tileLength: Int = 0
     private var boardLength: Int = 0
@@ -44,7 +44,7 @@ class ChessBoardView(
         viewListeners.add(viewListener)
     }
 
-    fun setViewModel(gameViewModel: GameViewModel) {
+    override fun onViewModelChange(gameViewModel: GameViewModel) {
         viewModel = gameViewModel
         draw()
     }

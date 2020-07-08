@@ -2,6 +2,7 @@ package com.example.justchess.controller
 
 import com.example.justchess.GameController
 import com.example.justchess.GameViewModel
+import com.example.justchess.GameViewModelListener
 import com.example.justchess.engine.Coordinate
 import com.example.justchess.engine.Game
 import com.example.justchess.engine.Move
@@ -16,6 +17,12 @@ abstract class BaseGameController(
         emptyList()
     )
     private var validMovesLookup: Map<Coordinate, Collection<Move>> = emptyMap()
+    private val listeners = mutableListOf<GameViewModelListener>()
+
+    override fun addViewModelListener(listener: GameViewModelListener) {
+        listeners.add(listener)
+        listener.onViewModelChange(viewModel)
+    }
 
     override fun getViewModel(): GameViewModel {
         return viewModel
@@ -34,12 +41,21 @@ abstract class BaseGameController(
 
     override fun promotePawn(promotedPiece: Piece) {
         game.promotePawn(promotedPiece)
-        postPlayerMoves()
-        viewModel = GameViewModel(
-            game.getCurrentBoard().getPieces(),
-            null,
-            emptyList()
+        updateViewModel(
+            GameViewModel(
+                game.getCurrentBoard().getPieces(),
+                null,
+                emptyList()
+            )
         )
+        postPlayerMoves()
+    }
+
+    private fun updateViewModel(gameViewModel: GameViewModel) {
+        viewModel = gameViewModel
+        listeners.forEach { listener ->
+            listener.onViewModelChange(viewModel)
+        }
     }
 
     private fun isCoordinateValidMove(coordinate: Coordinate): Boolean {
@@ -49,10 +65,12 @@ abstract class BaseGameController(
     protected fun executePlayerMoves(moves: Collection<Move>?) {
         if (!moves.isNullOrEmpty()) {
             game.applyMoves(moves)
-            viewModel = GameViewModel(
-                game.getCurrentBoard().getPieces(),
-                null,
-                emptyList()
+            updateViewModel(
+                GameViewModel(
+                    game.getCurrentBoard().getPieces(),
+                    null,
+                    emptyList()
+                )
             )
         }
     }
@@ -62,9 +80,11 @@ abstract class BaseGameController(
     }
 
     private fun clearSelection() {
-        viewModel = viewModel.copy(
-            selectedCoordinate = null,
-            validDestinations = emptyList()
+        updateViewModel(
+            viewModel.copy(
+                selectedCoordinate = null,
+                validDestinations = emptyList()
+            )
         )
         validMovesLookup = emptyMap()
     }
@@ -78,9 +98,11 @@ abstract class BaseGameController(
                     .map { moves -> Pair(moves.first().destination, moves) }
                     .toMap()
                 val validDestinations = validMovesLookup.keys
-                viewModel = viewModel.copy(
-                    selectedCoordinate = coordinate,
-                    validDestinations = validDestinations
+                updateViewModel(
+                    viewModel.copy(
+                        selectedCoordinate = coordinate,
+                        validDestinations = validDestinations
+                    )
                 )
             } else {
                 clearSelection()

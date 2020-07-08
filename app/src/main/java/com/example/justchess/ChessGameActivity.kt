@@ -18,22 +18,18 @@ abstract class ChessGameActivity : AppCompatActivity() {
         val chessView = ChessBoardView(this)
 
         val controller = createController()
+        controller.addViewModelListener(chessView)
         chessView.addViewListener(object : ChessBoardViewListener {
             override fun onCoordinateSelected(coordinate: Coordinate) {
                 val playerTurn = controller.game.playerTurn()
                 controller.selectCoordinate(coordinate)
-                val viewModel = controller.getViewModel()
-                chessView.setViewModel(
-                    viewModel
-                )
                 val promotablePawnCoordinate = controller.game.getPromotablePawnCoordinate()
                 val playerTurnUnchanged = controller.game.playerTurn() == playerTurn
                 if (promotablePawnCoordinate != null && playerTurnUnchanged) {
-                    launchPawnPromotionDialog(controller, chessView, promotablePawnCoordinate)
+                    launchPawnPromotionDialog(controller, promotablePawnCoordinate)
                 }
             }
         })
-        chessView.setViewModel(controller.getViewModel())
         setContentView(chessView)
     }
 
@@ -72,7 +68,6 @@ abstract class ChessGameActivity : AppCompatActivity() {
 
     private fun launchPawnPromotionDialog(
         controller: GameController,
-        chessBoardView: ChessBoardView,
         coordinate: Coordinate
     ) {
         AlertDialog.Builder(this)
@@ -83,9 +78,6 @@ abstract class ChessGameActivity : AppCompatActivity() {
                 val pieceFactory = getPieceFactory(controller.game.playerTurn())
                 val piece = pieceFactory.createPromotedPiece(coordinate, which)
                 controller.promotePawn(piece)
-                chessBoardView.setViewModel(
-                    controller.getViewModel()
-                )
             }
             .setCancelable(false)
             .create()

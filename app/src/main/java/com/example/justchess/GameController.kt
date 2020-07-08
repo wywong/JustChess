@@ -11,6 +11,11 @@ interface GameController {
     val game: Game
 
     /**
+     * adds a view model listener to this controller
+     */
+    fun addViewModelListener(listener: GameViewModelListener)
+
+    /**
      * select a coordinate on the board
      */
     fun selectCoordinate(coordinate: Coordinate)
