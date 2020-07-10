@@ -65,11 +65,19 @@ class DefaultGame(
     }
 
     override fun checkmatedPlayerId(): Int? {
-        TODO("NOT IMPLEMENTED")
+        val hasNoMoves = !currentBoard.getPiecesForPlayer(currentPlayer)
+            .any { piece -> piece.getValidMoves(currentBoard).isNotEmpty() }
+        return if (hasNoMoves && currentBoard.isKingInCheck(currentPlayer)) {
+            currentPlayer
+        } else {
+            null
+        }
     }
 
     override fun isStalemate(): Boolean {
-        TODO("NOT IMPLEMENTED")
+        val hasNoMoves = !currentBoard.getPiecesForPlayer(currentPlayer)
+            .any { piece -> piece.getValidMoves(currentBoard).isNotEmpty() }
+        return hasNoMoves && !currentBoard.isKingInCheck(currentPlayer)
     }
 
     override fun getPromotablePawnCoordinate(): Coordinate? {
