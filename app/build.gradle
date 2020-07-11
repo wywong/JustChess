@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId "com.example.justchess"
+        applicationId "xyz.wywong.justchess"
         minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
