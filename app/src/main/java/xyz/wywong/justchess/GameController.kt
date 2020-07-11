@@ -17,7 +17,7 @@ interface GameController {
     /**
      * adds a view model listener to this controller
      */
-    fun addViewModelListener(listener: GameViewModelListener)
+    fun addViewModelListener(listener: GameEventListener)
 
     /**
      * select a coordinate on the board

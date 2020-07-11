@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Just Chess</string>
+    <string name="player_name_0">White</string>
+    <string name="player_name_1">Black</string>
+    <string name="game_stalemate">Stalemate</string>
+    <string name="game_checkmate">Checkmate. %s wins.</string>
     <string name="new_single_person">New Single Person Game</string>
     <string name="new_two_person">New Two Person Game</string>
     <string name="promote_pawn">Promote pawn to:</string>

@@ -1,8 +1,8 @@
 package xyz.wywong.justchess.controller
 
 import xyz.wywong.justchess.GameController
+import xyz.wywong.justchess.GameEventListener
 import xyz.wywong.justchess.GameViewModel
-import xyz.wywong.justchess.GameViewModelListener
 import xyz.wywong.justchess.engine.Coordinate
 import xyz.wywong.justchess.engine.Game
 import xyz.wywong.justchess.engine.Move
@@ -17,7 +17,7 @@ abstract class BaseGameController(
         emptyList()
     )
     private var validMovesLookup: Map<Coordinate, Collection<Move>> = emptyMap()
-    private val listeners = mutableListOf<GameViewModelListener>()
+    private val listeners = mutableListOf<GameEventListener>()
 
     override fun playerTurn(): Int {
         return game.playerTurn()
@@ -27,7 +27,7 @@ abstract class BaseGameController(
         return game.getPromotablePawnCoordinate()
     }
 
-    override fun addViewModelListener(listener: GameViewModelListener) {
+    override fun addViewModelListener(listener: GameEventListener) {
         listeners.add(listener)
         listener.onViewModelChange(viewModel)
     }
@@ -84,7 +84,21 @@ abstract class BaseGameController(
     }
 
     protected open fun postPlayerMoves() {
+        if (game.isStalemate()) {
+            notifyStalemate()
+        }
+        val checkmatedPlayerId = game.checkmatedPlayerId()
+        if (checkmatedPlayerId != null) {
+            listeners.forEach { listener ->
+                listener.onCheckmate(checkmatedPlayerId)
+            }
+        }
+    }
 
+    private fun notifyStalemate() {
+        listeners.forEach { listener ->
+            listener.onStalemate()
+        }
     }
 
     private fun clearSelection() {

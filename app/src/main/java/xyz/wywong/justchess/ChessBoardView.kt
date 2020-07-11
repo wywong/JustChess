@@ -1,5 +1,6 @@
 package xyz.wywong.justchess
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.*
 import android.view.MotionEvent
@@ -12,7 +13,7 @@ private data class Tile(val rect: Rect, val paint: Paint)
 
 class ChessBoardView(
     context: Context
-) : SurfaceView(context), GameViewModelListener {
+) : SurfaceView(context), GameEventListener {
 
     private var tileLength: Int = 0
     private var boardLength: Int = 0
@@ -44,10 +45,38 @@ class ChessBoardView(
         viewListeners.add(viewListener)
     }
 
+    // region GameEventListener
+
     override fun onViewModelChange(gameViewModel: GameViewModel) {
         viewModel = gameViewModel
         draw()
     }
+
+    override fun onStalemate() {
+        AlertDialog.Builder(context)
+            .setMessage(R.string.game_stalemate)
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    override fun onCheckmate(checkedPlayerId: Int) {
+        val playerName = if (checkedPlayerId == 1) {
+            context.getString(R.string.player_name_0)
+        } else {
+            context.getString(R.string.player_name_1)
+        }
+
+        AlertDialog.Builder(context)
+            .setMessage(
+                context.getString(R.string.game_checkmate, playerName)
+            )
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    // endregion GameEventListener
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
