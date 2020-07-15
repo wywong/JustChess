@@ -66,10 +66,7 @@ abstract class ChessGameActivity : AppCompatActivity() {
 
     protected abstract fun buildController(game: Game): GameController
 
-    private fun launchPawnPromotionDialog(
-        controller: GameController,
-        coordinate: Coordinate
-    ) {
+    private fun launchPawnPromotionDialog(controller: GameController, coordinate: Coordinate) {
         AlertDialog.Builder(this)
             .setTitle(R.string.promote_pawn)
             .setItems(
