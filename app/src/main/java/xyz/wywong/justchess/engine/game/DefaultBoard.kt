@@ -5,6 +5,9 @@ import xyz.wywong.justchess.engine.Board
 import xyz.wywong.justchess.engine.Coordinate
 import xyz.wywong.justchess.engine.Move
 import xyz.wywong.justchess.engine.Piece
+import xyz.wywong.justchess.engine.movement.DiagonalBehavior
+import xyz.wywong.justchess.engine.movement.KnightBehavior
+import xyz.wywong.justchess.engine.movement.PlusBehavior
 
 class DefaultBoard(
     private val pieceMap: Map<Coordinate, Piece>,
@@ -57,10 +60,13 @@ class DefaultBoard(
     override fun isKingInCheck(playerId: Int): Boolean {
         val kingLocation = getPlayerKingLocation(playerId)
         val otherPlayerId = ChessUtil.getOtherPlayerId(playerId)
+        val possibleAttackerOrigins = getPossibleAttackerOrigins(kingLocation)
         getPiecesForPlayer(otherPlayerId).forEach { piece ->
-            val destinations = piece.getPossibleDestinations(this)
-            if (destinations.contains(kingLocation)) {
-                return true
+            if (possibleAttackerOrigins.contains(piece.location)) {
+                val destinations = piece.getPossibleDestinations(this)
+                if (destinations.contains(kingLocation)) {
+                    return true
+                }
             }
         }
         return false
@@ -72,5 +78,23 @@ class DefaultBoard(
         } else {
             blackKingLocation
         }
+    }
+
+    /**
+     * @param kingLocation the coordinate of the king we are checking
+     * returns a set of all possible locations that could potentially attack the king
+     */
+    private fun getPossibleAttackerOrigins(kingLocation: Coordinate): Set<Coordinate> {
+        val possibleAttackerOrigins = mutableSetOf<Coordinate>()
+        possibleAttackerOrigins.addAll(
+            PlusBehavior(kingLocation).possibleMoves(this)
+        )
+        possibleAttackerOrigins.addAll(
+            DiagonalBehavior(kingLocation).possibleMoves(this)
+        )
+        possibleAttackerOrigins.addAll(
+            KnightBehavior(kingLocation).possibleMoves(this)
+        )
+        return possibleAttackerOrigins
     }
 }

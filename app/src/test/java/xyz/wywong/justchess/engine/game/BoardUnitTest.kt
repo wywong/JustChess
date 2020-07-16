@@ -1,10 +1,8 @@
 package xyz.wywong.justchess.engine.game
 
-import xyz.wywong.justchess.engine.Coordinate
-import xyz.wywong.justchess.engine.piece.King
-import xyz.wywong.justchess.engine.piece.Pawn
-import xyz.wywong.justchess.engine.piece.Rook
 import org.junit.Test
+import xyz.wywong.justchess.engine.Coordinate
+import xyz.wywong.justchess.engine.piece.*
 
 class BoardUnitTest {
     private val whiteKing = King(
@@ -51,7 +49,7 @@ class BoardUnitTest {
     }
 
     @Test
-    fun white_king_in_check() {
+    fun white_king_in_check_rook() {
         val board = DefaultBoard(
             mapOf(
                 Pair(whiteKing.location, whiteKing),
@@ -64,6 +62,54 @@ class BoardUnitTest {
         )
         assert(board.isKingInCheck(0))
         assert(!board.isKingInCheck(1))
+    }
+
+    @Test
+    fun king_checked_knight() {
+        val whiteKnight = Knight(Coordinate(2, 1), 0, null, true)
+        val board = DefaultBoard(
+            mapOf(
+                Pair(whiteKing.location, whiteKing),
+                Pair(blackKing.location, blackKing),
+                Pair(whiteKnight.location, whiteKnight)
+            ),
+            whiteKing.location,
+            blackKing.location,
+            null
+        )
+        assert(board.isKingInCheck(1))
+    }
+
+    @Test
+    fun king_checked_bishop() {
+        val whiteBishop = Bishop(Coordinate(2, 2), 0, null, true)
+        val board = DefaultBoard(
+            mapOf(
+                Pair(whiteKing.location, whiteKing),
+                Pair(blackKing.location, blackKing),
+                Pair(whiteBishop.location, whiteBishop)
+            ),
+            whiteKing.location,
+            blackKing.location,
+            null
+        )
+        assert(board.isKingInCheck(1))
+    }
+
+    @Test
+    fun king_checked_pawn() {
+        val whitePawn = Pawn(Coordinate(1, 1), 0, null, true)
+        val board = DefaultBoard(
+            mapOf(
+                Pair(whiteKing.location, whiteKing),
+                Pair(blackKing.location, blackKing),
+                Pair(whitePawn.location, whitePawn)
+            ),
+            whiteKing.location,
+            blackKing.location,
+            null
+        )
+        assert(board.isKingInCheck(1))
     }
 
     @Test
