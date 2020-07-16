@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import xyz.wywong.justchess.engine.Board
 import xyz.wywong.justchess.engine.Coordinate
 import xyz.wywong.justchess.engine.Piece
-import xyz.wywong.justchess.engine.piece.movement.DiagonalBehavior
+import xyz.wywong.justchess.engine.movement.DiagonalBehavior
 
 class Bishop(
     override val location: Coordinate,

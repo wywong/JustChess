@@ -1,4 +1,4 @@
-package xyz.wywong.justchess.engine.piece.movement
+package xyz.wywong.justchess.engine.movement
 
 import xyz.wywong.justchess.engine.Board
 import xyz.wywong.justchess.engine.Coordinate
