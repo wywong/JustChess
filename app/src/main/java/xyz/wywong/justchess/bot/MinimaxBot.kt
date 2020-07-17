@@ -3,12 +3,12 @@ package xyz.wywong.justchess.bot
 import xyz.wywong.justchess.Bot
 import xyz.wywong.justchess.ChessUtil
 import xyz.wywong.justchess.engine.*
-import java.util.*
+import kotlin.collections.ArrayList
 
 private class Choice(
     val moves: Collection<Move>,
     val board: Board,
-    var score: Int,
+    val score: Int,
     val parent: Choice?
 )
 
@@ -19,27 +19,40 @@ class MinimaxBot(
     private val turnsAhead: Int = 3
 
     override fun getNextTurn(board: Board): Collection<Move> {
-        val levels: ArrayDeque<Collection<Choice>> = ArrayDeque()
-        var previousLevel: Collection<Choice> = getChoices(board, playerId, null)
-        levels.add(previousLevel)
-        var currentPlayer = ChessUtil.getOtherPlayerId(playerId)
-        while (levels.size < turnsAhead) {
-            val level = mutableListOf<Choice>()
-            for (choice in previousLevel) {
-                level.addAll(
-                    getChoices(
-                        choice.board,
-                        currentPlayer,
-                        choice
+        val levels: ArrayList<MutableList<Choice>> = ArrayList()
+        levels.add(getChoices(board, playerId, null).toMutableList())
+        var bestChoice: Choice? = null
+        val otherPlayerId = ChessUtil.getOtherPlayerId(playerId)
+        while (levels.isNotEmpty()) {
+            val currentLevel = levels.last()
+            when {
+                currentLevel.isEmpty() -> {
+                    levels.removeAt(levels.size - 1)
+                }
+                levels.size == turnsAhead -> {
+                    for (choice in currentLevel) {
+                        if (bestChoice == null || bestChoice.score < choice.score) {
+                            bestChoice = choice
+                        }
+                    }
+                    levels.removeAt(levels.size - 1)
+                }
+                else -> {
+                    val choice = currentLevel.removeAt(currentLevel.size - 1)
+                    val currentPlayer = if (levels.size % 2 == 0) {
+                        otherPlayerId
+                    } else {
+                        playerId
+                    }
+                    levels.add(
+                        getChoices(
+                            choice.board,
+                            currentPlayer,
+                            choice
+                        ).toMutableList()
                     )
-                )
+                }
             }
-            levels.add(level)
-            previousLevel = level
-            currentPlayer = ChessUtil.getOtherPlayerId(playerId)
-        }
-        val bestChoice = levels.last.maxBy { choice ->
-            choice.score
         }
         return if (bestChoice != null) {
             var rootChoice = bestChoice
@@ -48,7 +61,7 @@ class MinimaxBot(
             }
             return rootChoice!!.moves
         } else {
-            emptyList()
+            RandomBot(playerId, pieceFactory).getNextTurn(board)
         }
     }
 
@@ -62,11 +75,12 @@ class MinimaxBot(
         for (piece in pieces) {
             val validMoves = piece.getValidMoves(board)
             for (moves in validMoves) {
+                val score = (parent?.score ?: 0) + moveScoreDelta(board, moves)
                 choices.add(
                     Choice(
                         moves,
                         board.applyMoves(moves),
-                        (parent?.score ?: 0) + moveScoreDelta(board, moves),
+                        score,
                         parent
                     )
                 )
